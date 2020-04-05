@@ -2,9 +2,7 @@ version: '3.7'
 services:
 
   app:
-    build:
-      context: ./
-      dockerfile: docker/dosbox.dockerfile
+    image: registry.gitlab.com/adam-zielonka-pro/dos-pascal-docker
     working_dir: /project
     volumes:
       - ./:/project

@@ -1,6 +1,6 @@
 pages:
   image: 
-    name: registry.gitlab.com/adam-zielonka-pro/deska
+    name: registry.gitlab.com/adam-zielonka-pro/dos-pascal-docker
     entrypoint: [""]
   script:
     - /docker-entrypoint.sh DESKA.PAS
