@@ -6,5 +6,5 @@ services:
     working_dir: /project
     volumes:
       - ./:/project
-    command: ['DESKA.PAS']
+    command: ['src/DESKA.PAS']
 
