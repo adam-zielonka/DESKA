@@ -48,6 +48,71 @@ begin
   Close(fileText);
 end;
 
+procedure printMenu;
+begin
+  readBestResult;
+  printTitle;
+  textcolor(15);
+  gotoxy(33, 10); write('Start');
+  gotoxy(33, 11); write('Instrukcja');
+  gotoxy(33, 12); write('Wyjście');
+  gotoxy(24, 14); write('╔════════════════════════════════╗');
+  gotoxy(24, 15); write('║                                ║');
+  gotoxy(24, 16); write('╚════════════════════════════════╝');
+  gotoxy(25, 15); write(imie);
+  gotoxy(34, 15); write(wynik:23);
+  gotoxy(30, 10); write('►');
+end;
+
+procedure printHelp;
+begin
+  printTitle;
+  textcolor(15);
+  gotoxy(23, 10); write('╔════════════════════════════════╗');
+  gotoxy(23, 11); write('║ Esc    - wyjście               ║');
+  gotoxy(23, 12); write('║ ',#27,'      - lewo                  ║');
+  gotoxy(23, 13); write('║ ',#26,'      - prawo                 ║');
+  gotoxy(23, 14); write('║ Spacja - wybicie piłki         ║');
+  gotoxy(23, 15); write('║ P      - pauza                 ║');
+  gotoxy(23, 16); write('╚════════════════════════════════╝');
+  gotoxy(23, 17); write('     Cokolwiek aby powrócić');
+end;
+
+procedure menuLoop;
+begin
+  while true do
+  begin
+    z:=readkey;
+    case z of
+      #27: k:=1;
+      #32: 
+        begin 
+          case g of
+            10: begin o:=1; p:=0; end;
+            11: o:=4;
+            12: k:=1;
+          end;
+          break;
+        end;
+      #72: 
+        begin
+          gotoxy(30, g); write(' ');
+          g:=g-1;
+          if g=9 then g:=12;
+          gotoxy(30, g); write('►');
+        end;
+      #80: 
+        begin
+          gotoxy(30, g); write(' ');
+          g:=g+1;
+          if g=13 then g:=10;
+          gotoxy(30, g); write('►');
+        end;
+      else z:='?';
+    end;
+  end;
+end;
+
 begin
   init;
   Repeat
@@ -55,86 +120,20 @@ begin
     repeat
      if o=2 then
       begin
-       printTitle;
-       textcolor(15);
-       gotoxy(33,10);
-       write('Start');
-       gotoxy(33,11);
-       write('Instrukcja');
-       gotoxy(33,12);
-       write('Wyjście');
-       readBestResult;
-       gotoxy(24,14);
-       write('╔════════════════════════════════╗');   
-       gotoxy(34,15);
-       write(wynik:23,'║');
-       gotoxy(24,15);
-       write('║',imie);
-       gotoxy(24,16);
-       write('╚════════════════════════════════╝');
-       o:=3;
-       gotoxy(30,10);
-       write('►');
-       g:=10;
+        g:=10;
+        printMenu;
+        menuLoop;
       end;
-     if o=3 then
-      begin
-        z:=readkey;
-        case z of
-         #27: k:=1;
-         #32: begin 
-               case g of
-                10: begin o:=1; p:=0; end;
-                11: o:=4;
-                12: k:=1;
-               end;
-                       end;
-         #72: begin
-               gotoxy(30,g);
-               write(' ');
-               g:=g-1;
-               if g=9 then g:=12;
-               gotoxy(30,g);
-               write('►');
-              end;
-         #80: begin
-               gotoxy(30,g);
-               write(' ');
-               g:=g+1;
-               if g=13 then g:=10;
-               gotoxy(30,g);
-               write('►');
-              end;
-         else z:='?';
-        end;
-     end;
      if o=4 then
       begin
-       printTitle;
-       textcolor(15);
-       gotoxy(23,10);
-       write('╔════════════════════════════════╗');
-       gotoxy(23,11);
-       write('║ Esc    - wyjście               ║');
-       gotoxy(23,12);
-       write('║ ',#27,'      - lewo                  ║');
-       gotoxy(23,13);
-       write('║ ',#26,'      - prawo                 ║');
-       gotoxy(23,14);
-       write('║ Spacja - wybicie piłki         ║');
-       gotoxy(23,15);
-       write('║ P      - pauza                 ║');
-       gotoxy(23,16);
-       write('╚════════════════════════════════╝');
-       gotoxy(23,17);
-       write('     Cokolwiek aby powrócić');
-       z:=readkey;
-       case z of
-        #27: o:=2;
-        else o:=2;
-        z:='?';
-     end;
-         end;
+        printHelp;
+        z:=readkey;
+        case z of
+          #27: o:=2;
+          else o:=2;
+          z:='?';
+        end;
+      end;
     until((o=1) or (k=1));
     {if runda=1 then
      begin
