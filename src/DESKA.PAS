@@ -2,32 +2,60 @@ program deska;
 uses crt;
 var z:char;
     k,l,m,n,s,p,x,y,q,t,u,c,f,v,r,w,d,e,o,g:word;
-    plik:text;
     imie,nik:string;
-    wynik{,runda,element}:word;
+    wynik:word;
+
+procedure init;
 begin
-  asm mov cx,2000h;mov ah,1;int 10h;end;
+  asm mov cx,2000h; mov ah,1; int 10h; end;
   p:=999;
   l:=35;
   w:=0;
   o:=2;
- { runda:=1;
-  element:=1;}
+end;
+
+procedure printTitle;
+begin
+  clrscr;
+  textcolor(1);
+  writeln;
+  writeln('  ██████████        █████████       ████████      ██   ██          ███');
+  writeln('  ██       ██       ██             ██             ██  ██          ██ ██');
+  writeln('  ██        ██      ██              ██            ██ ██          ██   ██');
+  writeln('  ██         ██     ███████          ██████       ████          ██     ██');
+  writeln('  ██        ██      ██                    ██      ██ ██        ███████████');
+  writeln('  ██       ██       ██                   ██       ██  ██      ██         ██');
+  writeln('  ██████████        █████████      ███████        ██   ██    ██           ██');
+end;
+
+procedure readBestResult;
+var fileText:text;
+begin
+  Assign(fileText, 'WYNIKI.TXT');
+  Reset(fileText);
+  ReadLn(fileText, imie);
+  ReadLn(fileText, wynik);
+  Close(fileText);
+end;
+
+procedure writeBestResult(name: string; result: word);
+var fileText:text;
+begin
+  Assign(fileText, 'WYNIKI.TXT');
+  Rewrite(fileText);
+  WriteLn(fileText, name);
+  WriteLn(fileText, result);
+  Close(fileText);
+end;
+
+begin
+  init;
   Repeat
    if p=999 then
     repeat
      if o=2 then
       begin
-       clrscr;
-       textcolor(1);
-       writeln;
-       writeln('  ██████████        █████████       ████████      ██   ██          ███');
-       writeln('  ██       ██       ██             ██             ██  ██          ██ ██');
-       writeln('  ██        ██      ██              ██            ██ ██          ██   ██');
-       writeln('  ██         ██     ███████          ██████       ████          ██     ██');
-       writeln('  ██        ██      ██                    ██      ██ ██        ███████████');
-       writeln('  ██       ██       ██                   ██       ██  ██      ██         ██');
-       writeln('  ██████████        █████████      ███████        ██   ██    ██           ██');
+       printTitle;
        textcolor(15);
        gotoxy(33,10);
        write('Start');
@@ -35,11 +63,7 @@ begin
        write('Instrukcja');
        gotoxy(33,12);
        write('Wyjście');
-       Assign(plik,'WYNIKI.TXT');
-       Reset(plik);
-       ReadLn(plik,imie);
-       ReadLn(plik,wynik);
-       Close(plik);
+       readBestResult;
        gotoxy(24,14);
        write('╔════════════════════════════════╗');   
        gotoxy(34,15);
@@ -86,16 +110,7 @@ begin
      end;
      if o=4 then
       begin
-       clrscr;
-       textcolor(1);
-       writeln;
-       writeln('  ██████████        █████████       ████████      ██   ██          ███');
-       writeln('  ██       ██       ██             ██             ██  ██          ██ ██');
-       writeln('  ██        ██      ██              ██            ██ ██          ██   ██');
-       writeln('  ██         ██     ███████          ██████       ████          ██     ██');
-       writeln('  ██        ██      ██                    ██      ██ ██        ███████████');
-       writeln('  ██       ██       ██                   ██       ██  ██      ██         ██');
-       writeln('  ██████████        █████████      ███████        ██   ██    ██           ██');
+       printTitle;
        textcolor(15);
        gotoxy(23,10);
        write('╔════════════════════════════════╗');
@@ -269,7 +284,7 @@ begin
 
      end;
      t:=t+1;
-     if t=100 then
+     if t=50 then
       begin
        t:=0;
        gotoxy(x,y);
@@ -350,16 +365,8 @@ begin
        write('╚════════════════════════════════╝');
             gotoxy(25,15);
      read(nik);
-     Assign(plik,'WYNIKI.TXT');
-     Rewrite(plik);
-     WriteLn(plik,nik);
-     WriteLn(plik,w);
-     Close(plik);
-       Assign(plik,'WYNIKI.TXT');
-       Reset(plik);
-       ReadLn(plik,imie);
-       ReadLn(plik,wynik);
-       Close(plik);
+     writeBestResult(nik, w);
+     readBestResult;
   end;
      gotoxy(23,11);
      write(' Jeszcze raz? [Spacja] Nie? [Esc]   ');
