@@ -21,36 +21,36 @@ begin
 	   clrscr;
 	   textcolor(1);
 	   writeln;
-	   writeln('  ÛÛÛÛÛÛÛÛÛÛ        ÛÛÛÛÛÛÛÛÛ       ÛÛÛÛÛÛÛÛ      ÛÛ   ÛÛ          ÛÛÛ');
-	   writeln('  ÛÛ       ÛÛ       ÛÛ             ÛÛ             ÛÛ  ÛÛ          ÛÛ ÛÛ');
-	   writeln('  ÛÛ        ÛÛ      ÛÛ              ÛÛ            ÛÛ ÛÛ          ÛÛ   ÛÛ');
-	   writeln('  ÛÛ         ÛÛ     ÛÛÛÛÛÛÛ          ÛÛÛÛÛÛ       ÛÛÛÛ          ÛÛ     ÛÛ');
-	   writeln('  ÛÛ        ÛÛ      ÛÛ                    ÛÛ      ÛÛ ÛÛ        ÛÛÛÛÛÛÛÛÛÛÛ');
-	   writeln('  ÛÛ       ÛÛ       ÛÛ                   ÛÛ       ÛÛ  ÛÛ      ÛÛ         ÛÛ');
-	   writeln('  ÛÛÛÛÛÛÛÛÛÛ        ÛÛÛÛÛÛÛÛÛ      ÛÛÛÛÛÛÛ        ÛÛ   ÛÛ    ÛÛ           ÛÛ');
+	   writeln('  โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–        โ–โ–โ–โ–โ–โ–โ–โ–โ–       โ–โ–โ–โ–โ–โ–โ–โ–      โ–โ–   โ–โ–          โ–โ–โ–');
+	   writeln('  โ–โ–       โ–โ–       โ–โ–             โ–โ–             โ–โ–  โ–โ–          โ–โ– โ–โ–');
+	   writeln('  โ–โ–        โ–โ–      โ–โ–              โ–โ–            โ–โ– โ–โ–          โ–โ–   โ–โ–');
+	   writeln('  โ–โ–         โ–โ–     โ–โ–โ–โ–โ–โ–โ–          โ–โ–โ–โ–โ–โ–       โ–โ–โ–โ–          โ–โ–     โ–โ–');
+	   writeln('  โ–โ–        โ–โ–      โ–โ–                    โ–โ–      โ–โ– โ–โ–        โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–');
+	   writeln('  โ–โ–       โ–โ–       โ–โ–                   โ–โ–       โ–โ–  โ–โ–      โ–โ–         โ–โ–');
+	   writeln('  โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–        โ–โ–โ–โ–โ–โ–โ–โ–โ–      โ–โ–โ–โ–โ–โ–โ–        โ–โ–   โ–โ–    โ–โ–           โ–โ–');
 	   textcolor(15);
 	   gotoxy(33,10);
 	   write('Start');
 	   gotoxy(33,11);
 	   write('Instrukcja');
 	   gotoxy(33,12);
-	   write('Wyjcie');
+	   write('Wyjลcie');
        Assign(plik,'WYNIKI.TXT');
        Reset(plik);
        ReadLn(plik,imie);
        ReadLn(plik,wynik);
        Close(plik);
 	   gotoxy(24,14);
-       write('ษออออออออออออออออออออออออออออออออป');   
+       write('โ•”โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•—');   
 	   gotoxy(34,15);
-	   write(wynik:23,'บ');
+	   write(wynik:23,'โ•‘');
        gotoxy(24,15);
-       write('บ',imie);
+       write('โ•‘',imie);
 	   gotoxy(24,16);
-       write('ศออออออออออออออออออออออออออออออออผ');
+       write('โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•');
 	   o:=3;
 	   gotoxy(30,10);
-	   write('');
+	   write('โ–บ');
 	   g:=10;
 	  end;
 	 if o=3 then
@@ -71,7 +71,7 @@ begin
                g:=g-1;
 		       if g=9 then g:=12;
 		       gotoxy(30,g);
-		       write('');
+		       write('โ–บ');
 		      end;
 		 #80: begin
 		       gotoxy(30,g);
@@ -79,7 +79,7 @@ begin
                g:=g+1;
 		       if g=13 then g:=10;
 		       gotoxy(30,g);
-		       write('');
+		       write('โ–บ');
 		      end;
          else z:='?';
         end;
@@ -89,30 +89,30 @@ begin
        clrscr;
 	   textcolor(1);
 	   writeln;
-	   writeln('  ÛÛÛÛÛÛÛÛÛÛ        ÛÛÛÛÛÛÛÛÛ       ÛÛÛÛÛÛÛÛ      ÛÛ   ÛÛ          ÛÛÛ');
-	   writeln('  ÛÛ       ÛÛ       ÛÛ             ÛÛ             ÛÛ  ÛÛ          ÛÛ ÛÛ');
-	   writeln('  ÛÛ        ÛÛ      ÛÛ              ÛÛ            ÛÛ ÛÛ          ÛÛ   ÛÛ');
-	   writeln('  ÛÛ         ÛÛ     ÛÛÛÛÛÛÛ          ÛÛÛÛÛÛ       ÛÛÛÛ          ÛÛ     ÛÛ');
-	   writeln('  ÛÛ        ÛÛ      ÛÛ                    ÛÛ      ÛÛ ÛÛ        ÛÛÛÛÛÛÛÛÛÛÛ');
-	   writeln('  ÛÛ       ÛÛ       ÛÛ                   ÛÛ       ÛÛ  ÛÛ      ÛÛ         ÛÛ');
-	   writeln('  ÛÛÛÛÛÛÛÛÛÛ        ÛÛÛÛÛÛÛÛÛ      ÛÛÛÛÛÛÛ        ÛÛ   ÛÛ    ÛÛ           ÛÛ');
+	   writeln('  โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–        โ–โ–โ–โ–โ–โ–โ–โ–โ–       โ–โ–โ–โ–โ–โ–โ–โ–      โ–โ–   โ–โ–          โ–โ–โ–');
+	   writeln('  โ–โ–       โ–โ–       โ–โ–             โ–โ–             โ–โ–  โ–โ–          โ–โ– โ–โ–');
+	   writeln('  โ–โ–        โ–โ–      โ–โ–              โ–โ–            โ–โ– โ–โ–          โ–โ–   โ–โ–');
+	   writeln('  โ–โ–         โ–โ–     โ–โ–โ–โ–โ–โ–โ–          โ–โ–โ–โ–โ–โ–       โ–โ–โ–โ–          โ–โ–     โ–โ–');
+	   writeln('  โ–โ–        โ–โ–      โ–โ–                    โ–โ–      โ–โ– โ–โ–        โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–');
+	   writeln('  โ–โ–       โ–โ–       โ–โ–                   โ–โ–       โ–โ–  โ–โ–      โ–โ–         โ–โ–');
+	   writeln('  โ–โ–โ–โ–โ–โ–โ–โ–โ–โ–        โ–โ–โ–โ–โ–โ–โ–โ–โ–      โ–โ–โ–โ–โ–โ–โ–        โ–โ–   โ–โ–    โ–โ–           โ–โ–');
 	   textcolor(15);
        gotoxy(23,10);
-       write('ษออออออออออออออออออออออออออออออออป');
+       write('โ•”โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•—');
        gotoxy(23,11);
-       write('บ Esc    - wyjcie               บ');
+       write('โ•‘ Esc    - wyjลcie               โ•‘');
        gotoxy(23,12);
-       write('บ ',#27,'      - lewo                  บ');
+       write('โ•‘ ',#27,'      - lewo                  โ•‘');
        gotoxy(23,13);
-       write('บ ',#26,'      - prawo                 บ');
+       write('โ•‘ ',#26,'      - prawo                 โ•‘');
        gotoxy(23,14);
-       write('บ Spacja - wybicie piki         บ');
+       write('โ•‘ Spacja - wybicie piลki         โ•‘');
        gotoxy(23,15);
-       write('บ P      - pauza                 บ');
+       write('โ•‘ P      - pauza                 โ•‘');
        gotoxy(23,16);
-       write('ศออออออออออออออออออออออออออออออออผ');
+       write('โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•');
 	   gotoxy(23,17);
-       write('     Cokolwiek aby powrขci');
+       write('     Cokolwiek aby powrรณciฤ');
 	   z:=readkey;
        case z of
         #27: o:=2;
@@ -126,9 +126,9 @@ begin
 	  if element=1 then
 	  begin
 	  gotoxy(36,3);
-	  write('ฺฤฤฤฤฟ')  ;
+	  write('โ”โ”€โ”€โ”€โ”€โ”')  ;
 	  gotoxy(36,4) ;
-	  write('ภฤฤฤฤู');
+	  write('โ””โ”€โ”€โ”€โ”€โ”');
 	  end;
 	 end;
 	}
@@ -137,31 +137,31 @@ begin
      ClrScr;
      s:=0;
      p:=1;
-     write('ฺ');
-     for m:=2 to 79 do write('ฤ');
-     write('ฟ');
+     write('โ”');
+     for m:=2 to 79 do write('โ”€');
+     write('โ”');
      for m:=2 to 23 do
       begin
-	   write('ณ');
+	   write('โ”');
 	   for n:=2 to 79 do write(' ');
-	   write('ณ');
+	   write('โ”');
       end;
-     write('ภ');
-     for m:=2 to 79 do write('ฤ');
-     write('ู');
+     write('โ””');
+     for m:=2 to 79 do write('โ”€');
+     write('โ”');
      gotoxy(l,23);
 	 textcolor(6);
-     write('฿฿฿฿฿฿฿฿฿฿');
+     write('โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€');
 	 textcolor(15);
      gotoxy(l+5,22);
 	 textcolor(14);
-     write('');
+     write('โบ');
 	 textcolor(15);
      w:=0;
 	 gotoxy(1,25);
 	 e:=3;
 	 textcolor(4);
-	 write('  x ',e);
+	 write(' โฅ x ',e);
 	 textcolor(15);
 	 gotoxy(40,25);
 	 write(w:40);
@@ -177,13 +177,13 @@ begin
             if l<>2 then l:=l-1 else l:=2;
             gotoxy(l,23);
 			textcolor(6);
-            write('฿฿฿฿฿฿฿฿฿฿');
+            write('โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€');
 			textcolor(15);
             gotoxy(2,22);
             for m:=2 to 79 do write(' ');
             gotoxy(l+5,22);
 			textcolor(14);
-            write('');
+            write('โบ');
 			textcolor(15);
 			r:=1;
            end;
@@ -193,13 +193,13 @@ begin
             if l<>70 then l:=l+1 else l:=70;
             gotoxy(l,23);
 			textcolor(6);
-            write('฿฿฿฿฿฿฿฿฿฿');
+            write('โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€');
 			textcolor(15);
             gotoxy(2,22);
             for m:=2 to 79 do write(' ');
             gotoxy(l+5,22);
 			textcolor(14);
-            write('');
+            write('โบ');
 			textcolor(15);
 			r:=1;
            end;
@@ -238,7 +238,7 @@ begin
             if l<>2 then l:=l-1 else l:=2;
             gotoxy(l,23);
 			textcolor(6);
-            write('฿฿฿฿฿฿฿฿฿฿');
+            write('โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€');
 			textcolor(15);
 			r:=1;
            end;
@@ -248,7 +248,7 @@ begin
             if l<>70 then l:=l+1 else l:=70;
             gotoxy(l,23);
 			textcolor(6);
-            write('฿฿฿฿฿฿฿฿฿฿');
+            write('โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€โ–€');
 			textcolor(15);
 			r:=1;
            end;
@@ -305,7 +305,7 @@ begin
        end;
        gotoxy(x,y);
 	   textcolor(14);
-       write('');
+       write('โบ');
 	   textcolor(15);
       end;
    end;
@@ -315,9 +315,9 @@ begin
 	if e=0 then p:=4 else p:=1;
     gotoxy(1,25);
 	textcolor(4);
-	write('  x ',e);	
+	write(' โฅ x ',e);	
 	gotoxy(37,10);
-	write('  x ',e);
+	write(' โฅ x ',e);
 	textcolor(15);
 	if p<>4 then 
 	begin
@@ -328,7 +328,7 @@ begin
     write(' ');
 	gotoxy(l+5,22);
 	textcolor(14);
-    write('');
+    write('โบ');
 	textcolor(15);
 	end;
 	end;
@@ -337,17 +337,17 @@ begin
 	 if w>wynik then
       begin
        gotoxy(23,11);
-     write(' Jeste najlepszy podaj swoje imiฉ: ');
+     write(' Jesteล najlepszy podaj swoje imiฤ: ');
 	        gotoxy(30,12);
-     write('(Enter aby zatwierdzi)');
+     write('(Enter aby zatwierdziฤ)');
 	   gotoxy(24,14);
-	   write('ษออออออออออออออออออออออออออออออออป');   
+	   write('โ•”โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•—');   
        gotoxy(24,15);
-       write('บ');
+       write('โ•‘');
 	   gotoxy(57,15);
-	   write('บ');
+	   write('โ•‘');
 	   gotoxy(24,16);
-       write('ศออออออออออออออออออออออออออออออออผ');
+       write('โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•');
 	   	 gotoxy(25,15);
      read(nik);
 	 Assign(plik,'WYNIKI.TXT');
@@ -366,13 +366,13 @@ begin
 	 	   	        gotoxy(30,12);
      write('                       ');
 	   gotoxy(24,14);
-       write('ษออออออออออออออออออออออออออออออออป');   
+       write('โ•”โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•—');   
 	   gotoxy(34,15);
-	   write(wynik:23,'บ');
+	   write(wynik:23,'โ•‘');
        gotoxy(24,15);
-       write('บ',imie);
+       write('โ•‘',imie);
 	   gotoxy(24,16);
-       write('ศออออออออออออออออออออออออออออออออผ');
+       write('โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•โ•');
      if keypressed then z:=ReadKey
                    else z:='?';
      case z of
@@ -383,23 +383,23 @@ begin
    if r=1 then
    begin
     gotoxy(1,1);
-    write('ฺ');
-    for m:=2 to 79 do write('ฤ');
-    write('ฟ');
+    write('โ”');
+    for m:=2 to 79 do write('โ”€');
+    write('โ”');
     for m:=2 to 23 do
     begin
 	 gotoxy(1,m);
-     write('ณ');
+     write('โ”');
      gotoxy(80,m);
-     write('ณ');
+     write('โ”');
     end;
-    write('ภ');
-    for m:=2 to 79 do write('ฤ');
-    write('ู');
+    write('โ””');
+    for m:=2 to 79 do write('โ”€');
+    write('โ”');
 	r:=0;
 	gotoxy(1,25);
 	textcolor(4);
-	write('  x ',e);
+	write(' โฅ x ',e);
 	textcolor(15);
    end;
    delay(1);
