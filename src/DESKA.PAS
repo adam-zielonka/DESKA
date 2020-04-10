@@ -85,7 +85,7 @@ begin
     z:=readkey;
     case z of
       #27: k:=1;
-      #32: 
+      #13, #32: 
         begin 
           case g of
             10: begin o:=1; p:=0; end;
