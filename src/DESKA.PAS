@@ -1,10 +1,10 @@
 program deska;
 uses crt;
 var 
-  z:char;
-  k,l,m,n,s,p,x,y,q,t,u,c,f,v,w,d,e,o:word;
-  imie,nik:string;
-  wynik:word;
+  z: char;
+  k,l,m,n,s,p,x,y,q,t,u,c,f,v,w,d,e,o: word;
+  name: string;
+  result: word;
 
 procedure init;
 begin
@@ -17,16 +17,16 @@ end;
 
 procedure printTitle;
 begin
-  clrscr;
-  textcolor(1);
-  writeln;
-  writeln('  ██████████        █████████       ████████      ██   ██          ███');
-  writeln('  ██       ██       ██             ██             ██  ██          ██ ██');
-  writeln('  ██        ██      ██              ██            ██ ██          ██   ██');
-  writeln('  ██         ██     ███████          ██████       ████          ██     ██');
-  writeln('  ██        ██      ██                    ██      ██ ██        ███████████');
-  writeln('  ██       ██       ██                   ██       ██  ██      ██         ██');
-  writeln('  ██████████        █████████      ███████        ██   ██    ██           ██');
+  clrScr;
+  textColor(1);
+  writeLn;
+  writeLn('  ██████████        █████████       ████████      ██   ██          ███');
+  writeLn('  ██       ██       ██             ██             ██  ██          ██ ██');
+  writeLn('  ██        ██      ██              ██            ██ ██          ██   ██');
+  writeLn('  ██         ██     ███████          ██████       ████          ██     ██');
+  writeLn('  ██        ██      ██                    ██      ██ ██        ███████████');
+  writeLn('  ██       ██       ██                   ██       ██  ██      ██         ██');
+  writeLn('  ██████████        █████████      ███████        ██   ██    ██           ██');
 end;
 
 procedure readBestResult;
@@ -34,18 +34,18 @@ var fileText:text;
 begin
   Assign(fileText, 'WYNIKI.TXT');
   Reset(fileText);
-  ReadLn(fileText, imie);
-  ReadLn(fileText, wynik);
+  ReadLn(fileText, name);
+  ReadLn(fileText, result);
   Close(fileText);
 end;
 
-procedure writeBestResult(name: string; result: word);
+procedure writeBestResult(_name: string; _result: word);
 var fileText:text;
 begin
   Assign(fileText, 'WYNIKI.TXT');
   Rewrite(fileText);
-  WriteLn(fileText, name);
-  WriteLn(fileText, result);
+  WriteLn(fileText, _name);
+  WriteLn(fileText, _result);
   Close(fileText);
 end;
 
@@ -53,30 +53,30 @@ procedure printMenu;
 begin
   readBestResult;
   printTitle;
-  textcolor(15);
-  gotoxy(33, 10); write('Start');
-  gotoxy(33, 11); write('Instrukcja');
-  gotoxy(33, 12); write('Wyjście');
-  gotoxy(24, 14); write('╔════════════════════════════════╗');
-  gotoxy(24, 15); write('║                                ║');
-  gotoxy(24, 16); write('╚════════════════════════════════╝');
-  gotoxy(25, 15); write(imie);
-  gotoxy(34, 15); write(wynik:23);
-  gotoxy(30, 10); write('►');
+  textColor(15);
+  gotoXY(33, 10); write('Start');
+  gotoXY(33, 11); write('Instrukcja');
+  gotoXY(33, 12); write('Wyjście');
+  gotoXY(24, 14); write('╔════════════════════════════════╗');
+  gotoXY(24, 15); write('║                                ║');
+  gotoXY(24, 16); write('╚════════════════════════════════╝');
+  gotoXY(25, 15); write(name);
+  gotoXY(34, 15); write(result:23);
+  gotoXY(30, 10); write('►');
 end;
 
 procedure printHelp;
 begin
   printTitle;
-  textcolor(15);
-  gotoxy(23, 10); write('╔════════════════════════════════╗');
-  gotoxy(23, 11); write('║ Esc    - wyjście               ║');
-  gotoxy(23, 12); write('║ ',#27,'      - lewo                  ║');
-  gotoxy(23, 13); write('║ ',#26,'      - prawo                 ║');
-  gotoxy(23, 14); write('║ Spacja - wybicie piłki         ║');
-  gotoxy(23, 15); write('║ P      - pauza                 ║');
-  gotoxy(23, 16); write('╚════════════════════════════════╝');
-  gotoxy(23, 17); write('     Cokolwiek aby powrócić');
+  textColor(15);
+  gotoXY(23, 10); write('╔════════════════════════════════╗');
+  gotoXY(23, 11); write('║ Esc    - wyjście               ║');
+  gotoXY(23, 12); write('║ ',#27,'      - lewo                  ║');
+  gotoXY(23, 13); write('║ ',#26,'      - prawo                 ║');
+  gotoXY(23, 14); write('║ Spacja - wybicie piłki         ║');
+  gotoXY(23, 15); write('║ P      - pauza                 ║');
+  gotoXY(23, 16); write('╚════════════════════════════════╝');
+  gotoXY(23, 17); write('     Cokolwiek aby powrócić');
 end;
 
 procedure menuLoop;
@@ -90,7 +90,7 @@ begin
   begin
     key := readKey;
     case key of
-      #27: k:=1;
+      #27: begin k:=1; break; end;
       #13, #32: 
         begin 
           case menu of
@@ -102,17 +102,17 @@ begin
         end;
       #72: 
         begin
-          gotoxy(30, menu); write(' ');
+          gotoXY(30, menu); write(' ');
           menu := menu - 1;
           if menu = 9 then menu := 12;
-          gotoxy(30, menu); write('►');
+          gotoXY(30, menu); write('►');
         end;
       #80: 
         begin
-          gotoxy(30, menu); write(' ');
+          gotoXY(30, menu); write(' ');
           menu := menu + 1;
           if menu = 13 then menu := 10;
-          gotoxy(30, menu); write('►');
+          gotoXY(30, menu); write('►');
         end;
       else key:='?';
     end;
@@ -144,7 +144,7 @@ begin
   write(text);
 end;
 
-procedure move(x, y, color: word);
+procedure gotoXYC(x, y, color: word);
 begin
   gotoXY(x, y);
   textColor(color);
@@ -155,7 +155,7 @@ begin
   if l <> 2 then
     begin
       l := l - 1;
-      gotoxy(l + 10, 23); write(' ');
+      gotoXY(l + 10, 23); write(' ');
       print(l, 23, 6, '▀');
     end;
 end;
@@ -165,11 +165,36 @@ begin
   if l <> 70 then
     begin
       l := l + 1;
-      gotoxy(l - 1, 23); write(' ');
+      gotoXY(l - 1, 23); write(' ');
       print(l + 9, 23, 6, '▀');
     end;
 end;
 
+procedure newBest(result: word);
+var newName: string;
+begin
+  textColor(15);
+  gotoXY(23, 11); write(' Jesteś najlepszy podaj swoje imię: ');
+  gotoXY(30, 12); write('(Enter aby zatwierdzić)');
+  gotoXY(24, 14); write('╔════════════════════════════════╗');   
+  gotoXY(24, 15); write('║'); 
+  gotoXY(57, 15); write('║');
+  gotoXY(24, 16); write('╚════════════════════════════════╝');
+  gotoXY(25, 15); read(newName);
+  writeBestResult(newName, result);
+  readBestResult;
+end;
+
+procedure gameOver;
+begin
+  textColor(15);
+  gotoXY(23, 11); write(' Jeszcze raz? [Spacja] Nie? [Esc]   ');
+  gotoXY(24, 14); write('╔════════════════════════════════╗');
+  gotoXY(24, 15); write('║                                ║'); 
+  gotoXY(24, 16); write('╚════════════════════════════════╝');
+  gotoXY(34, 15); write(result:23);
+  gotoXY(25, 15); write(name);
+end;
 
 begin
   init;
@@ -185,12 +210,12 @@ begin
       printGameArea;
       print(l, 23, 6, '▀▀▀▀▀▀▀▀▀▀');
       print(l + 5, 22, 14, '☺');
-      move(1, 25, 4); write(' ♥ x ', e);
-      move(40, 25, 15); write(w:40);
+      gotoXYC(1, 25, 4); write(' ♥ x ', e);
+      gotoXYC(40, 25, 15); write(w:40);
     end;
    if p=1 then
     begin
-     if keypressed then z:=ReadKey else z:='?';
+     if keyPressed then z:=ReadKey else z:='?';
      case z of
       #27: begin o:=2; p:=999; end;
       #75: 
@@ -224,7 +249,7 @@ begin
     end;
    if p=2 then
     begin
-     if keypressed then z:=ReadKey else z:='?';
+     if keyPressed then z:=ReadKey else z:='?';
      case z of
       #27: begin o:=2; p:=999; end;
       #75: moveLeft;
@@ -237,11 +262,10 @@ begin
         end;
      end;
      t:=t+1;
-     if t=50 then
+     if t=75 then
       begin
        t:=0;
-       gotoxy(x,y);
-       write(' ');
+       gotoXY(x, y); write(' ');
        if y=22 then
         begin
          q:=1;
@@ -256,7 +280,7 @@ begin
           if u<>1 then p:=3;
           if p<>3 then d:=d+1;
         end;
-       if d=2 then begin w:=w+10; gotoxy(40,25); write(w:40); d:=1; end;
+       if d=2 then begin w:=w+10; gotoXYC(40, 25, 15); write(w:40); d:=1; end;
        if y=2 then q:=2;
        case q of
         1: begin
@@ -271,59 +295,35 @@ begin
         1: x:=x-1;
         2: x:=x+1;
        end;
-       gotoxy(x,y);
-       textcolor(14);
-       write('☺');
-       textcolor(15);
+       print(x, y, 14, '☺');
       end;
    end;
    if p=3 then
     begin
       e:=e-1;
       if e=0 then p:=4 else p:=1;
-      move(1, 25, 4); write(' ♥ x ', e);
-      move(37, 10, 4); write(' ♥ x ', e);
-      textcolor(15);
+      gotoXYC(1, 25, 4); write(' ♥ x ', e);
+      gotoXYC(37, 10, 4); write(' ♥ x ', e);
+      textColor(15);
       if p<>4 then 
         begin
-          readkey;
-          gotoxy(37,10);
-          write('      ');
-          gotoxy(x,y);
-          write(' ');
-          gotoxy(l+5,22);
-          textcolor(14);
-          write('☺');
-          textcolor(15);
+          readKey;
+          gotoXY(37, 10); write('      ');
+          print(x, y, 14, ' ');
+          print(l + 5, 22, 14, '☺');
         end;
     end;
-   if p=4 then
-    begin
-     if w>wynik then
+    if p=4 then
       begin
-        gotoxy(23, 11); write(' Jesteś najlepszy podaj swoje imię: ');
-        gotoxy(30, 12); write('(Enter aby zatwierdzić)');
-        gotoxy(24, 14); write('╔════════════════════════════════╗');   
-        gotoxy(24, 15); write('║'); 
-        gotoxy(57, 15); write('║');
-        gotoxy(24, 16); write('╚════════════════════════════════╝');
-        gotoxy(25, 15); read(nik);
-        writeBestResult(nik, w);
-        readBestResult;
+        if w>result then newBest(w);
+        gameOver;
+        z:=readKey;
+        case z of
+          #27: begin o:=2; p:=999; end;
+          #32: p:=0;
+        end;
+        z:='?'
       end;
-      gotoxy(23, 11); write(' Jeszcze raz? [Spacja] Nie? [Esc]   ');
-      gotoxy(24, 14); write('╔════════════════════════════════╗');
-      gotoxy(24, 15); write('║                                ║'); 
-      gotoxy(24, 16); write('╚════════════════════════════════╝');
-      gotoxy(34, 15); write(wynik:23);
-      gotoxy(25, 15); write(imie);
-      z:=readKey;
-      case z of
-        #27: begin o:=2; p:=999; end;
-        #32: p:=0;
-      end;
-      z:='?'
-    end;
     delay(1);
   until(k=1);
 end.
