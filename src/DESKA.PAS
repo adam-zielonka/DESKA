@@ -1,9 +1,10 @@
 program deska;
 uses crt;
-var z:char;
-    k,l,m,n,s,p,x,y,q,t,u,c,f,v,r,w,d,e,o:word;
-    imie,nik:string;
-    wynik:word;
+var 
+  z:char;
+  k,l,m,n,s,p,x,y,q,t,u,c,f,v,r,w,d,e,o:word;
+  imie,nik:string;
+  wynik:word;
 
 procedure init;
 begin
@@ -123,6 +124,37 @@ begin
   end;
 end;
 
+procedure printGameArea;
+begin
+  ClrScr;
+  textColor(15);
+  write('┌');
+  for m := 2 to 79 do write('─');
+  write('┐');
+  for m := 2 to 23 do
+  begin
+    write('│');
+    for n := 2 to 79 do write(' ');
+    write('│');
+  end;
+  write('└');
+  for m := 2 to 79 do write('─');
+  write('┘');
+end;
+
+procedure print(x, y, color: word; text: string);
+begin
+  gotoXY(x, y);
+  textColor(color);
+  write(text);
+end;
+
+procedure move(x, y, color: word);
+begin
+  gotoXY(x, y);
+  textColor(color);
+end;
+
 begin
   init;
   Repeat
@@ -130,37 +162,15 @@ begin
       repeat menuLoop; until((o = 1) or (k = 1));
    if p=0 then
     begin
-     ClrScr;
-     s:=0;
-     p:=1;
-     write('┌');
-     for m:=2 to 79 do write('─');
-     write('┐');
-     for m:=2 to 23 do
-      begin
-       write('│');
-       for n:=2 to 79 do write(' ');
-       write('│');
-      end;
-     write('└');
-     for m:=2 to 79 do write('─');
-     write('┘');
-     gotoxy(l,23);
-     textcolor(6);
-     write('▀▀▀▀▀▀▀▀▀▀');
-     textcolor(15);
-     gotoxy(l+5,22);
-     textcolor(14);
-     write('☺');
-     textcolor(15);
-     w:=0;
-     gotoxy(1,25);
-     e:=3;
-     textcolor(4);
-     write(' ♥ x ',e);
-     textcolor(15);
-     gotoxy(40,25);
-     write(w:40);
+      s:=0;
+      p:=1;
+      w:=0;
+      e:=3;
+      printGameArea;
+      print(l, 23, 6, '▀▀▀▀▀▀▀▀▀▀');
+      print(l + 5, 22, 14, '☺');
+      move(1, 25, 4); write(' ♥ x ', e);
+      move(40, 25, 15); write(w:40);
     end;
    if p=1 then
     begin
