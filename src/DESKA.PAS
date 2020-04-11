@@ -2,7 +2,7 @@ program deska;
 uses crt;
 var 
   z:char;
-  k,l,m,n,s,p,x,y,q,t,u,c,f,v,r,w,d,e,o:word;
+  k,l,m,n,s,p,x,y,q,t,u,c,f,v,w,d,e,o:word;
   imie,nik:string;
   wynik:word;
 
@@ -88,19 +88,14 @@ begin
   printMenu;
   while true do
   begin
-    key := readkey;
+    key := readKey;
     case key of
       #27: k:=1;
       #13, #32: 
         begin 
           case menu of
             10: {PLAY} begin o:=1; p:=0; end;
-            11: {HELP}
-              begin
-                printHelp;
-                key := readkey;
-                key := '?';
-              end;
+            11: {HELP} begin printHelp; readKey; end;
             12: {EXIT} k:=1;
           end;
           break;
@@ -155,9 +150,30 @@ begin
   textColor(color);
 end;
 
+procedure moveLeft;
+begin
+  if l <> 2 then
+    begin
+      l := l - 1;
+      gotoxy(l + 10, 23); write(' ');
+      print(l, 23, 6, '▀');
+    end;
+end;
+
+procedure moveRight;
+begin
+  if l <> 70 then
+    begin
+      l := l + 1;
+      gotoxy(l - 1, 23); write(' ');
+      print(l + 9, 23, 6, '▀');
+    end;
+end;
+
+
 begin
   init;
-  Repeat
+  repeat
    if p=999 then
       repeat menuLoop; until((o = 1) or (k = 1));
    if p=0 then
@@ -177,60 +193,33 @@ begin
      if keypressed then z:=ReadKey else z:='?';
      case z of
       #27: begin o:=2; p:=999; end;
-      #75: begin
-            gotoxy(2,23);
-            for m:=2 to 79 do write(' ');
-            if l<>2 then l:=l-1 else l:=2;
-            gotoxy(l,23);
-            textcolor(6);
-            write('▀▀▀▀▀▀▀▀▀▀');
-            textcolor(15);
-            gotoxy(2,22);
-            for m:=2 to 79 do write(' ');
-            gotoxy(l+5,22);
-            textcolor(14);
-            write('☺');
-            textcolor(15);
-            r:=1;
-           end;
-      #77: begin
-            gotoxy(2,23);
-            for m:=2 to 79 do write(' ');
-            if l<>70 then l:=l+1 else l:=70;
-            gotoxy(l,23);
-            textcolor(6);
-            write('▀▀▀▀▀▀▀▀▀▀');
-            textcolor(15);
-            gotoxy(2,22);
-            for m:=2 to 79 do write(' ');
-            gotoxy(l+5,22);
-            textcolor(14);
-            write('☺');
-            textcolor(15);
-            r:=1;
-           end;
-      #32: begin
-            p:=2;
-            x:=l+5;
-            y:=22;
-            q:=1;
-            d:=0;
-            if ((x mod 2)=0) then v:=1 else v:=2;
-           end;
-      #80: begin
-           gotoxy(37,10);
-           write('Pauza!');
-           readkey;
-           gotoxy(37,10);
-           write('      ');
-           end;
-      #112:begin
-           gotoxy(37,10);
-           write('Pauza!');
-           readkey;
-           gotoxy(37,10);
-           write('      ');
-           end;
+      #75: 
+        begin
+          moveLeft;
+          print(l + 6, 22, 14, ' ');
+          print(l + 5, 22, 14, '☺');
+        end;
+      #77: 
+        begin
+          moveRight;
+          print(l + 4, 22, 14, ' ');
+          print(l + 5, 22, 14, '☺');
+        end;
+      #32:
+        begin
+          p:=2;
+          x:=l+5;
+          y:=22;
+          q:=1;
+          d:=0;
+          if ((x mod 2)=0) then v:=1 else v:=2;
+        end;
+      #80, #112: 
+        begin
+          print(37, 10, 15, 'Pauza!');
+          readKey;
+          print(37, 10, 15, '      ');
+        end;
      end;
     end;
    if p=2 then
@@ -238,41 +227,14 @@ begin
      if keypressed then z:=ReadKey else z:='?';
      case z of
       #27: begin o:=2; p:=999; end;
-      #75: begin
-            gotoxy(2,23);
-            for m:=2 to 79 do write(' ');
-            if l<>2 then l:=l-1 else l:=2;
-            gotoxy(l,23);
-            textcolor(6);
-            write('▀▀▀▀▀▀▀▀▀▀');
-            textcolor(15);
-            r:=1;
-           end;
-      #77: begin
-            gotoxy(2,23);
-            for m:=2 to 79 do write(' ');
-            if l<>70 then l:=l+1 else l:=70;
-            gotoxy(l,23);
-            textcolor(6);
-            write('▀▀▀▀▀▀▀▀▀▀');
-            textcolor(15);
-            r:=1;
-           end;
-      #80: begin
-           gotoxy(37,10);
-           write('Pauza!');
-           readkey;
-           gotoxy(37,10);
-           write('      ');
-           end;
-      #112:begin
-           gotoxy(37,10);
-           write('Pauza!');
-           readkey;
-           gotoxy(37,10);
-           write('      ');
-           end;
-
+      #75: moveLeft;
+      #77: moveRight;
+      #80, #112: 
+        begin
+          print(37, 10, 15, 'Pauza!');
+          readKey;
+          print(37, 10, 15, '      ');
+        end;
      end;
      t:=t+1;
      if t=50 then
@@ -317,89 +279,51 @@ begin
    end;
    if p=3 then
     begin
-    e:=e-1;
-    if e=0 then p:=4 else p:=1;
-    gotoxy(1,25);
-    textcolor(4);
-    write(' ♥ x ',e);	
-    gotoxy(37,10);
-    write(' ♥ x ',e);
-    textcolor(15);
-    if p<>4 then 
-    begin
-    readkey;
-    gotoxy(37,10);
-    write('      ');
-    gotoxy(x,y);
-    write(' ');
-    gotoxy(l+5,22);
-    textcolor(14);
-    write('☺');
-    textcolor(15);
-    end;
+      e:=e-1;
+      if e=0 then p:=4 else p:=1;
+      move(1, 25, 4); write(' ♥ x ', e);
+      move(37, 10, 4); write(' ♥ x ', e);
+      textcolor(15);
+      if p<>4 then 
+        begin
+          readkey;
+          gotoxy(37,10);
+          write('      ');
+          gotoxy(x,y);
+          write(' ');
+          gotoxy(l+5,22);
+          textcolor(14);
+          write('☺');
+          textcolor(15);
+        end;
     end;
    if p=4 then
     begin
      if w>wynik then
       begin
-       gotoxy(23,11);
-     write(' Jesteś najlepszy podaj swoje imię: ');
-            gotoxy(30,12);
-     write('(Enter aby zatwierdzić)');
-       gotoxy(24,14);
-       write('╔════════════════════════════════╗');   
-       gotoxy(24,15);
-       write('║');
-       gotoxy(57,15);
-       write('║');
-       gotoxy(24,16);
-       write('╚════════════════════════════════╝');
-            gotoxy(25,15);
-     read(nik);
-     writeBestResult(nik, w);
-     readBestResult;
-  end;
-     gotoxy(23,11);
-     write(' Jeszcze raz? [Spacja] Nie? [Esc]   ');
-                        gotoxy(30,12);
-     write('                       ');
-       gotoxy(24,14);
-       write('╔════════════════════════════════╗');   
-       gotoxy(34,15);
-       write(wynik:23,'║');
-       gotoxy(24,15);
-       write('║',imie);
-       gotoxy(24,16);
-       write('╚════════════════════════════════╝');
-     if keypressed then z:=ReadKey
-                   else z:='?';
-     case z of
-      #27: begin o:=2; p:=999; end;
-      #32: p:=0;
-     end;
+        gotoxy(23, 11); write(' Jesteś najlepszy podaj swoje imię: ');
+        gotoxy(30, 12); write('(Enter aby zatwierdzić)');
+        gotoxy(24, 14); write('╔════════════════════════════════╗');   
+        gotoxy(24, 15); write('║'); 
+        gotoxy(57, 15); write('║');
+        gotoxy(24, 16); write('╚════════════════════════════════╝');
+        gotoxy(25, 15); read(nik);
+        writeBestResult(nik, w);
+        readBestResult;
+      end;
+      gotoxy(23, 11); write(' Jeszcze raz? [Spacja] Nie? [Esc]   ');
+      gotoxy(24, 14); write('╔════════════════════════════════╗');
+      gotoxy(24, 15); write('║                                ║'); 
+      gotoxy(24, 16); write('╚════════════════════════════════╝');
+      gotoxy(34, 15); write(wynik:23);
+      gotoxy(25, 15); write(imie);
+      z:=readKey;
+      case z of
+        #27: begin o:=2; p:=999; end;
+        #32: p:=0;
+      end;
+      z:='?'
     end;
-   if r=1 then
-   begin
-    gotoxy(1,1);
-    write('┌');
-    for m:=2 to 79 do write('─');
-    write('┐');
-    for m:=2 to 23 do
-    begin
-     gotoxy(1,m);
-     write('│');
-     gotoxy(80,m);
-     write('│');
-    end;
-    write('└');
-    for m:=2 to 79 do write('─');
-    write('┘');
-    r:=0;
-    gotoxy(1,25);
-    textcolor(4);
-    write(' ♥ x ',e);
-    textcolor(15);
-   end;
-   delay(1);
+    delay(1);
   until(k=1);
 end.
