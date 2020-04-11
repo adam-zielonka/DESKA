@@ -1,7 +1,7 @@
 program deska;
 uses crt;
 var z:char;
-    k,l,m,n,s,p,x,y,q,t,u,c,f,v,r,w,d,e,o,g:word;
+    k,l,m,n,s,p,x,y,q,t,u,c,f,v,r,w,d,e,o:word;
     imie,nik:string;
     wynik:word;
 
@@ -79,36 +79,46 @@ begin
 end;
 
 procedure menuLoop;
+var 
+  menu:word;
+  key:char;
 begin
+  menu := 10;
+  printMenu;
   while true do
   begin
-    z:=readkey;
-    case z of
+    key := readkey;
+    case key of
       #27: k:=1;
       #13, #32: 
         begin 
-          case g of
-            10: begin o:=1; p:=0; end;
-            11: o:=4;
-            12: k:=1;
+          case menu of
+            10: {PLAY} begin o:=1; p:=0; end;
+            11: {HELP}
+              begin
+                printHelp;
+                key := readkey;
+                key := '?';
+              end;
+            12: {EXIT} k:=1;
           end;
           break;
         end;
       #72: 
         begin
-          gotoxy(30, g); write(' ');
-          g:=g-1;
-          if g=9 then g:=12;
-          gotoxy(30, g); write('►');
+          gotoxy(30, menu); write(' ');
+          menu := menu - 1;
+          if menu = 9 then menu := 12;
+          gotoxy(30, menu); write('►');
         end;
       #80: 
         begin
-          gotoxy(30, g); write(' ');
-          g:=g+1;
-          if g=13 then g:=10;
-          gotoxy(30, g); write('►');
+          gotoxy(30, menu); write(' ');
+          menu := menu + 1;
+          if menu = 13 then menu := 10;
+          gotoxy(30, menu); write('►');
         end;
-      else z:='?';
+      else key:='?';
     end;
   end;
 end;
@@ -117,35 +127,7 @@ begin
   init;
   Repeat
    if p=999 then
-    repeat
-     if o=2 then
-      begin
-        g:=10;
-        printMenu;
-        menuLoop;
-      end;
-     if o=4 then
-      begin
-        printHelp;
-        z:=readkey;
-        case z of
-          #27: o:=2;
-          else o:=2;
-          z:='?';
-        end;
-      end;
-    until((o=1) or (k=1));
-    {if runda=1 then
-     begin
-      if element=1 then
-      begin
-      gotoxy(36,3);
-      write('┌────┐')  ;
-      gotoxy(36,4) ;
-      write('└────┘');
-      end;
-     end;
-    }
+      repeat menuLoop; until((o = 1) or (k = 1));
    if p=0 then
     begin
      ClrScr;
