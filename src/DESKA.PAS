@@ -230,7 +230,7 @@ begin
           print(l + 4, 22, 14, ' ');
           print(l + 5, 22, 14, '☺');
         end;
-      #32:
+      #32, #13:
         begin
           p:=2;
           x:=l+5;
@@ -320,7 +320,7 @@ begin
         z:=readKey;
         case z of
           #27: begin o:=2; p:=999; end;
-          #32: p:=0;
+          #32, #13: p:=0;
         end;
         z:='?'
       end;
