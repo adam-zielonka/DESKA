@@ -50,10 +50,23 @@ begin
   gotoXY(23, 17); write('     Cokolwiek aby powrócić');
 end;
 
+function nextItem(item: word; up: boolean): word;
+var tempItem: word;
+begin
+  if up then tempItem := item - 1 else tempItem := item + 1;
+  if tempItem = 9 then tempItem := 12;
+  if tempItem = 13 then tempItem := 10;
+
+  gotoXY(30, item); write(' ');
+  gotoXY(30, tempItem); write('►');
+
+  nextItem := tempItem;
+end;
+
 function menuLoop: word;
 var 
-  item:word;
-  key:char;
+  item: word;
+  key: char;
 begin
   item := 10;
   printMenu;
@@ -61,8 +74,8 @@ begin
   begin
     key := readKey;
     case key of
-      #27: begin menuLoop := 0; break; end;
-      #13, #32: 
+      #27: {ESC} begin menuLoop := 0; break; end;
+      #13, #32: {ENTER, SPACE}
         begin 
           case item of
             10: {PLAY} menuLoop := 1;
@@ -71,20 +84,8 @@ begin
           end;
           break;
         end;
-      #72: 
-        begin
-          gotoXY(30, item); write(' ');
-          item := item - 1;
-          if item = 9 then item := 12;
-          gotoXY(30, item); write('►');
-        end;
-      #80: 
-        begin
-          gotoXY(30, item); write(' ');
-          item := item + 1;
-          if item = 13 then item := 10;
-          gotoXY(30, item); write('►');
-        end;
+      #72: {UP} item := nextItem(item, true);
+      #80: {DOWN} item := nextItem(item, false);
       else key:='?';
     end;
   end;
