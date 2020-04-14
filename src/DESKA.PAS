@@ -1,10 +1,8 @@
 program deska;
-uses crt;
+uses crt, menu, results;
 var 
   z: char;
   k,l,m,n,s,p,x,y,q,t,u,c,f,v,w,d,e,o: word;
-  name: string;
-  result: word;
 
 procedure init;
 begin
@@ -13,110 +11,6 @@ begin
   l:=35;
   w:=0;
   o:=2;
-end;
-
-procedure printTitle;
-begin
-  clrScr;
-  textColor(1);
-  writeLn;
-  writeLn('  ██████████        █████████       ████████      ██   ██          ███');
-  writeLn('  ██       ██       ██             ██             ██  ██          ██ ██');
-  writeLn('  ██        ██      ██              ██            ██ ██          ██   ██');
-  writeLn('  ██         ██     ███████          ██████       ████          ██     ██');
-  writeLn('  ██        ██      ██                    ██      ██ ██        ███████████');
-  writeLn('  ██       ██       ██                   ██       ██  ██      ██         ██');
-  writeLn('  ██████████        █████████      ███████        ██   ██    ██           ██');
-end;
-
-procedure readBestResult;
-var fileText:text;
-begin
-  Assign(fileText, 'WYNIKI.TXT');
-  Reset(fileText);
-  ReadLn(fileText, name);
-  ReadLn(fileText, result);
-  Close(fileText);
-end;
-
-procedure writeBestResult(_name: string; _result: word);
-var fileText:text;
-begin
-  Assign(fileText, 'WYNIKI.TXT');
-  Rewrite(fileText);
-  WriteLn(fileText, _name);
-  WriteLn(fileText, _result);
-  Close(fileText);
-end;
-
-procedure printMenu;
-begin
-  readBestResult;
-  printTitle;
-  textColor(15);
-  gotoXY(33, 10); write('Start');
-  gotoXY(33, 11); write('Instrukcja');
-  gotoXY(33, 12); write('Wyjście');
-  gotoXY(24, 14); write('╔════════════════════════════════╗');
-  gotoXY(24, 15); write('║                                ║');
-  gotoXY(24, 16); write('╚════════════════════════════════╝');
-  gotoXY(25, 15); write(name);
-  gotoXY(34, 15); write(result:23);
-  gotoXY(30, 10); write('►');
-end;
-
-procedure printHelp;
-begin
-  printTitle;
-  textColor(15);
-  gotoXY(23, 10); write('╔════════════════════════════════╗');
-  gotoXY(23, 11); write('║ Esc    - wyjście               ║');
-  gotoXY(23, 12); write('║ ',#27,'      - lewo                  ║');
-  gotoXY(23, 13); write('║ ',#26,'      - prawo                 ║');
-  gotoXY(23, 14); write('║ Spacja - wybicie piłki         ║');
-  gotoXY(23, 15); write('║ P      - pauza                 ║');
-  gotoXY(23, 16); write('╚════════════════════════════════╝');
-  gotoXY(23, 17); write('     Cokolwiek aby powrócić');
-end;
-
-procedure menuLoop;
-var 
-  menu:word;
-  key:char;
-begin
-  menu := 10;
-  printMenu;
-  while true do
-  begin
-    key := readKey;
-    case key of
-      #27: begin k:=1; break; end;
-      #13, #32: 
-        begin 
-          case menu of
-            10: {PLAY} begin o:=1; p:=0; end;
-            11: {HELP} begin printHelp; readKey; end;
-            12: {EXIT} k:=1;
-          end;
-          break;
-        end;
-      #72: 
-        begin
-          gotoXY(30, menu); write(' ');
-          menu := menu - 1;
-          if menu = 9 then menu := 12;
-          gotoXY(30, menu); write('►');
-        end;
-      #80: 
-        begin
-          gotoXY(30, menu); write(' ');
-          menu := menu + 1;
-          if menu = 13 then menu := 10;
-          gotoXY(30, menu); write('►');
-        end;
-      else key:='?';
-    end;
-  end;
 end;
 
 procedure printGameArea;
@@ -182,7 +76,6 @@ begin
   gotoXY(24, 16); write('╚════════════════════════════════╝');
   gotoXY(25, 15); read(newName);
   writeBestResult(newName, result);
-  readBestResult;
 end;
 
 procedure gameOver;
@@ -196,11 +89,21 @@ begin
   gotoXY(25, 15); write(name);
 end;
 
+procedure gameMenu;
+var code: word;
+begin
+  repeat 
+    case menuLoop of
+      0: begin k:=1; end;
+      1: begin o:=1; p:=0; end;
+    end;
+  until((o = 1) or (k = 1));
+end;
+
 begin
   init;
   repeat
-   if p=999 then
-      repeat menuLoop; until((o = 1) or (k = 1));
+   if p=999 then gameMenu;
    if p=0 then
     begin
       s:=0;
