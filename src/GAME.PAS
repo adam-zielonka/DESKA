@@ -8,11 +8,19 @@ uses crt;
 var 
   screen: array[1..80, 1..25] of char;
   colors: array[1..80, 1..25] of word;
+  actions: array[1..80, 1..25] of word;
+  board_position: word; 
 
-procedure point(x, y: word; value: char; color: word);
+procedure attach(x, y: word; value: char; color, action: word);
 begin
   screen[x, y] := value;
   colors[x, y] := color;
+  actions[x, y] := action;
+end;
+
+procedure point(x, y: word; value: char; color: word);
+begin
+  attach(x, y, value, color, 0);
 end;
 
 procedure clear;
@@ -37,29 +45,54 @@ begin
 end;
 
 procedure initGameArea;
-var m, n, color: word;
+var i, color: word;
 begin
   color := 2;
-  point(1, 1, '┌', color);
-  for m := 2 to 79 do point(m, 1, '─', color);
-  point(80, 1, '┐', color);
-  for m := 2 to 23 do
+  attach(1, 1, '┌', color, 1);
+  for i := 2 to 79 do attach(i, 1, '─', color, 1);
+  attach(80, 1, '┐', color, 1);
+  for i := 2 to 23 do
   begin
-    point(1, m, '│', color);
-    point(80, m, '│', color);
+    attach(1, i, '│', color, 1);
+    attach(80, i, '│', color, 1);
   end;
-  point(1, 24, '└', color);
-  for m := 2 to 79 do point(m, 24, '─', color);
-  point(80, 24, '┘', color);
+  attach(1, 24, '└', color, 1);
+  for i := 2 to 79 do attach(i, 24, '─', color, 1);
+  attach(80, 24, '┘', color, 1);
+end;
+
+procedure setBoard(position: word);
+var i: word;
+begin
+  for i := 0 to 9 do
+    attach(position + i, 23, '▀', 6, 2);
+end;
+
+procedure gameLoop;
+var key: char;
+begin
+  clrScr;
+  board_position := 35;
+  while true do 
+  begin
+    clear;
+    initGameArea;
+    setBoard(board_position);
+    render;
+    
+    key := readKey;
+    case key of
+      #27: {ESC} break;
+      #75: {LEFT} board_position := board_position - 1;
+      #77: {RIGHT} board_position := board_position + 1;
+      else key:='?';
+    end;
+  end;
 end;
 
 procedure gameTest;
 begin
-  clrScr;
-  clear;
-  initGameArea;
-  render;
-  readKey;
+  gameLoop;
 end;
 
 end.
