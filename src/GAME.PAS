@@ -86,23 +86,21 @@ begin
 end;
 
 procedure gameLoop;
-var key: char;
 begin
   clrScr;
   boardPosition := 35;
-  while true do 
+  PORT[$60] := 0;
+  while PORT[$60] <> 1 do 
   begin
     clear;
     renderGameArea;
     renderBoard(boardPosition);
     render;
     
-    key := readKey;
-    case key of
-      #27: {ESC} break;
-      #75: {LEFT} setBoard(-1);
-      #77: {RIGHT} setBoard(+1);
-      else key:='?';
+    case PORT[$60] of
+      27: {ESC} break;
+      75: {LEFT} setBoard(-1);
+      77: {RIGHT} setBoard(+1);
     end;
   end;
 end;
