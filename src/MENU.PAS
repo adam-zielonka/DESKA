@@ -4,7 +4,7 @@ interface
 function menuLoop: word;
 
 implementation
-uses crt, results;
+uses crt, results, keys;
 
 procedure printTitle;
 begin
@@ -31,8 +31,8 @@ begin
   gotoXY(24, 14); write('╔════════════════════════════════╗');
   gotoXY(24, 15); write('║                                ║');
   gotoXY(24, 16); write('╚════════════════════════════════╝');
-  gotoXY(25, 15); write(name);
   gotoXY(34, 15); write(result:23);
+  gotoXY(25, 15); write(name);
   gotoXY(30, 10); write('►');
 end;
 
@@ -66,28 +66,27 @@ end;
 function menuLoop: word;
 var 
   item: word;
-  key: char;
 begin
   item := 10;
   printMenu;
+  resetKey;
   while true do
   begin
-    key := readKey;
     case key of
-      #27: {ESC} begin menuLoop := 0; break; end;
-      #13, #32: {ENTER, SPACE}
+      KEY_ESC: begin menuLoop := 0; break; end;
+      KEY_ENTER, KEY_SPACE: {ENTER, SPACE}
         begin 
           case item of
             10: {PLAY} menuLoop := 1;
-            11: {HELP} begin printHelp; readKey; end;
+            11: {HELP} begin printHelp; resetKey; readKey; end;
             12: {EXIT} menuLoop := 0;
           end;
           break;
         end;
-      #72: {UP} item := nextItem(item, true);
-      #80: {DOWN} item := nextItem(item, false);
-      else key:='?';
+      KEY_UP: {UP} item := nextItem(item, true);
+      KEY_DOWN: {DOWN} item := nextItem(item, false);
     end;
+    delay(100);
   end;
 end;
 

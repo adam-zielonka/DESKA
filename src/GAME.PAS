@@ -1,10 +1,10 @@
 unit game;
 interface
 
-procedure gameTest;
+procedure gameLoop;
 
 implementation
-uses crt, keys;
+uses crt, keys, results;
 var 
   screen: array[1..80, 1..25] of char;
   colors: array[1..80, 1..25] of word;
@@ -16,6 +16,7 @@ var
   up, left, run: boolean;
   boxes: array[1..13, 1..13] of word;
   points: LongInt;
+  lives: word;
 
 procedure attach(x, y: word; value: char; color, action: word);
 begin
@@ -36,6 +37,18 @@ begin
     for x:= 1 to 80 do
       point(x, y, ' ', 15);
 end;
+
+procedure clearR;
+var x, y: word;
+begin
+  for y:= 1 to 25 do
+    for x:= 1 to 80 do
+    begin
+        rScreen[x, y] := ' ';
+        rColors[x, y] := 0;
+    end;
+end;
+
 
 procedure render;
 var x, y: word;
@@ -98,6 +111,8 @@ begin
   size := 10;
   for i := 0 to size do
     attach(position + i, 23, '▀', 6, 102);
+  actions[position + size + 1, 23] := 102;
+  actions[position - 1, 23] := 102;
 end;
 
 procedure setBoard(position: integer);
@@ -136,7 +151,11 @@ begin
   if (actions[x + 1][y] = 300) then touchBox(x + 1, y);
   if (actions[x][y - 1] = 300) then touchBox(x, y - 1);
   if (actions[x][y + 1] = 300) then touchBox(x, y + 1);
-  if (actions[x][y + 1] = 103) then run := false;
+  if (actions[x][y + 1] = 103) then 
+    begin 
+      run := false;
+      lives := lives - 1;
+    end;
   if (actions[x][y + 1] = 102) then points := points + 1;
 
   ballX := x;
@@ -178,9 +197,57 @@ end;
 
 procedure setup;
 begin
+  resetKey;
+  clearR;
+  points := 0;
+  lives := 3;
   boardPosition := 35;
   setupBall;
   setupBoxes;
+end;
+
+procedure nextSetup;
+begin
+  resetKey;
+  clearR;
+  points := 0;
+  lives := 3;
+end;
+
+procedure newBest(result: LongInt);
+var newName: string;
+begin
+  textColor(15);
+  gotoXY(23, 11); write(' Jesteś najlepszy podaj swoje imię: ');
+  gotoXY(30, 12); write('(Enter aby zatwierdzić)');
+  gotoXY(24, 14); write('╔════════════════════════════════╗');   
+  gotoXY(24, 15); write('║'); 
+  gotoXY(57, 15); write('║');
+  gotoXY(24, 16); write('╚════════════════════════════════╝');
+  readKey;
+  gotoXY(25, 15); read(newName);
+  writeBestResult(newName, result);
+end;
+
+function gameOver: boolean;
+begin
+  readBestResult;
+  if result < points then newBest(points);
+  textColor(15);
+  gotoXY(23, 11); write('  Kontynuuj? [Spacja] Nie? [Esc]  ');
+  gotoXY(24, 14); write('╔════════════════════════════════╗');
+  gotoXY(24, 15); write('║                                ║'); 
+  gotoXY(24, 16); write('╚════════════════════════════════╝');
+  gotoXY(34, 15); write(result:23);
+  gotoXY(25, 15); write(name);
+  resetKey;
+  while true do 
+  begin    
+    case KEY of
+      KEY_ESC: begin gameOver := true; break end;
+      KEY_SPACE, KEY_ENTER: begin gameOver := false; break end;
+    end;
+  end;
 end;
 
 procedure gameLoop;
@@ -193,7 +260,8 @@ begin
   while KEY <> KEY_ESC do 
   begin
     time := time + 1;
-    if time mod 2 = 0 then calcBall;
+    if time mod 1 = 0 then calcBall;
+    if lives = 0 then if gameOver then break else nextSetup;
 
     clear;
     renderGameArea;
@@ -202,6 +270,7 @@ begin
     renderBall;
     render;
     gotoXY(40, 25); textColor(15); write(points:40); 
+    gotoXY(1, 25); textColor(4); write(' ♥ x ', lives); 
     
     case KEY of
       KEY_ESC: break;
@@ -210,12 +279,8 @@ begin
       KEY_SPACE, KEY_ENTER: run := true;
     end;
   end;
-end;
-
-procedure gameTest;
-var i: word;
-begin
-  gameLoop;
+  resetKey;
+  readKey;
 end;
 
 end.
