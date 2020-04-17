@@ -93,15 +93,6 @@ begin
   end;
 end;
 
-procedure setupBall;
-begin
-  ballX := 40;
-  ballY := 22;
-  up := true;
-  left := true;
-  run := false;
-end;
-
 procedure calcBall;
 var x, y: word;
 begin
@@ -127,13 +118,27 @@ begin
   point(ballX, ballY, '☺', 14);
 end;
 
+procedure setupBall;
+begin
+  ballX := 40;
+  ballY := 22;
+  up := true;
+  left := true;
+  run := false;
+end;
+
+procedure setup;
+begin
+  boardPosition := 35;
+  setupBall;
+end;
+
 procedure gameLoop;
 var time: word;
 begin
   clrScr;
   time := 0;
-  boardPosition := 35;
-  setupBall;
+  setup;
   resetKey;
   while KEY <> KEY_ESC do 
   begin
