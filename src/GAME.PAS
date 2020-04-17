@@ -4,7 +4,7 @@ interface
 procedure gameTest;
 
 implementation
-uses crt;
+uses crt, keys;
 var 
   screen: array[1..80, 1..25] of char;
   colors: array[1..80, 1..25] of word;
@@ -102,7 +102,7 @@ begin
   run := false;
 end;
 
-procedure renderBall;
+procedure calcBall;
 var x, y: word;
 begin
   if not run then exit;
@@ -122,6 +122,11 @@ begin
   ballY := y;
 end;
 
+procedure renderBall;
+begin
+  point(ballX, ballY, '☺', 14);
+end;
+
 procedure gameLoop;
 var time: word;
 begin
@@ -129,22 +134,23 @@ begin
   time := 0;
   boardPosition := 35;
   setupBall;
-  PORT[$60] := 0;
-  while PORT[$60] <> 1 do 
+  resetKey;
+  while KEY <> KEY_ESC do 
   begin
     time := time + 1;
+    if time mod 2 = 0 then calcBall;
+
     clear;
     renderGameArea;
     renderBoard(boardPosition);
-    if time mod 2 = 0 then renderBall;
-    point(ballX, ballY, '☺', 14);
+    renderBall;
     render;
     
-    case PORT[$60] of
-      27: {ESC} break;
-      75: {LEFT} setBoard(-1);
-      77: {RIGHT} setBoard(+1);
-      57: {SPACE} run := true;
+    case KEY of
+      KEY_ESC: break;
+      KEY_LEFT: setBoard(-1);
+      KEY_RIGHT: setBoard(+1);
+      KEY_SPACE, KEY_ENTER: run := true;
     end;
   end;
 end;
