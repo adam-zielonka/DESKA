@@ -14,6 +14,7 @@ var
   boardPosition: word; 
   ballX, ballY: word;
   up, left, run: boolean;
+  boxes: array[1..13, 1..13] of word;
 
 procedure attach(x, y: word; value: char; color, action: word);
 begin
@@ -70,6 +71,16 @@ begin
   attach(80, 24, '┘', color, 100);
 end;
 
+procedure renderBox(x, y, color: word);
+begin
+  attach(x + 0, y, '╚', color, 300);
+  attach(x + 1, y, '═', color, 300);
+  attach(x + 2, y, '═', color, 300);
+  attach(x + 3, y, '═', color, 300);
+  attach(x + 4, y, '═', color, 300);
+  attach(x + 5, y, '╝', color, 300);
+end;
+
 procedure renderBoard(position: word);
 var i, size: word;
 begin
@@ -100,17 +111,19 @@ begin
 
   if up then y := ballY - 1 else y := ballY + 1;
   if left then x := ballX - 1 else x := ballX + 1;
-  if actions[x][y] <> 0 then 
-  begin
-    if (actions[x][y] = 103) then begin up := not up; run := false; end;
-    if (actions[x][y] = 102) or (actions[x][y] = 100) then up := not up;
-    if (actions[x][y] = 101) or (actions[x][y] = 100) then left := not left;
-    if up then y := ballY - 1 else y := ballY + 1;
-    if left then x := ballX - 1 else x := ballX + 1;
-  end;
+
+  if (actions[x - 1][y] <> 0) or (actions[x + 1][y] <> 0) then left := not left;
+  if (actions[x][y - 1] <> 0) or (actions[x][y + 1] <> 0) then up := not up; 
+
+  if (actions[x - 1][y] = 300) then boxes[(x - 1 + 4) div 6 , y - 1] := 0;
+  if (actions[x + 1][y] = 300) then boxes[(x + 1 + 4) div 6 , y - 1] := 0;
+  if (actions[x][y - 1] = 300) then boxes[(x + 4) div 6 , y - 1 - 1] := 0;
+  if (actions[x][y + 1] = 300) then boxes[(x + 4) div 6 , y - 1 + 1] := 0;
+  if (actions[x][y + 1] = 103) then run := false;
 
   ballX := x;
   ballY := y;
+  if not run then setBoard(0);
 end;
 
 procedure renderBall;
@@ -127,14 +140,31 @@ begin
   run := false;
 end;
 
+procedure setupBoxes;
+var x, y: word;
+begin
+  for y:= 1 to 13 do
+    for x:= 1 to 13 do
+      if x mod 1 = 0 then boxes[x, y] := 2 + y else boxes[x, y] := 0;
+end;
+
+procedure renderBoxes;
+var x, y: word;
+begin
+  for y:= 1 to 13 do
+    for x:= 1 to 13 do
+      if boxes[x, y] <> 0 then renderBox(-4 + (x * 6), 1 + y, boxes[x, y]);
+end;
+
 procedure setup;
 begin
   boardPosition := 35;
   setupBall;
+  setupBoxes;
 end;
 
 procedure gameLoop;
-var time: word;
+var time, i: word;
 begin
   clrScr;
   time := 0;
@@ -147,6 +177,7 @@ begin
 
     clear;
     renderGameArea;
+    renderBoxes;
     renderBoard(boardPosition);
     renderBall;
     render;
@@ -161,6 +192,7 @@ begin
 end;
 
 procedure gameTest;
+var i: word;
 begin
   gameLoop;
 end;
