@@ -4,7 +4,7 @@ interface
 procedure gameLoop;
 
 implementation
-uses crt, keys, results;
+uses crt, keyB, results;
 var 
   screen: array[1..80, 1..25] of char;
   colors: array[1..80, 1..25] of word;
@@ -197,7 +197,6 @@ end;
 
 procedure setup;
 begin
-  resetKey;
   clearR;
   points := 0;
   lives := 3;
@@ -208,7 +207,6 @@ end;
 
 procedure nextSetup;
 begin
-  resetKey;
   clearR;
   points := 0;
   lives := 3;
@@ -224,7 +222,6 @@ begin
   gotoXY(24, 15); write('║'); 
   gotoXY(57, 15); write('║');
   gotoXY(24, 16); write('╚════════════════════════════════╝');
-  readKey;
   gotoXY(25, 15); read(newName);
   writeBestResult(newName, result);
 end;
@@ -240,28 +237,27 @@ begin
   gotoXY(24, 16); write('╚════════════════════════════════╝');
   gotoXY(34, 15); write(result:23);
   gotoXY(25, 15); write(name);
-  resetKey;
+  keyB_Init;
   while true do 
   begin    
-    case KEY of
-      KEY_ESC: begin gameOver := true; break end;
-      KEY_SPACE, KEY_ENTER: begin gameOver := false; break end;
-    end;
+    keyB_clear;
+    if key[Vk_Esc] then begin gameOver := true; break end;
+    if key[Vk_Space] then begin gameOver := false; break end;
   end;
+  keyB_end;
 end;
 
-procedure gameLoop;
+procedure gameLoop_2;
 var time, i: word;
 begin
   clrScr;
   time := 0;
-  setup;
-  resetKey;
-  while KEY <> KEY_ESC do 
+  keyB_Init;
+  while not key[Vk_Esc] do 
   begin
     time := time + 1;
-    if time mod 1 = 0 then calcBall;
-    if lives = 0 then if gameOver then break else nextSetup;
+    if time mod 2 = 0 then calcBall;
+    if lives = 0 then break;
 
     clear;
     renderGameArea;
@@ -272,15 +268,22 @@ begin
     gotoXY(40, 25); textColor(15); write(points:40); 
     gotoXY(1, 25); textColor(4); write(' ♥ x ', lives); 
     
-    case KEY of
-      KEY_ESC: break;
-      KEY_LEFT: setBoard(-1);
-      KEY_RIGHT: setBoard(+1);
-      KEY_SPACE, KEY_ENTER: run := true;
-    end;
+    if key[Vk_Esc] then break;
+    if key[Vk_Left] then setBoard(-1);
+    if key[Vk_Right] then setBoard(+1);
+    if key[Vk_Space] then run := true;
   end;
-  resetKey;
-  readKey;
+  keyB_end;
+end;
+
+procedure gameLoop;
+begin
+  setup;
+  while true do
+  begin
+    gameLoop_2;
+    if gameOver then break else nextSetup;
+  end;
 end;
 
 end.

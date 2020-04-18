@@ -14,11 +14,6 @@ procedure resetKey;
 
 implementation
 
-function key: byte;
-begin
-  key := PORT[$60];
-end;
-
 procedure clear; assembler;
 asm
   mov ax, 0c00h
@@ -29,6 +24,12 @@ procedure resetKey;
 begin
   clear;
   PORT[$60] := 0;
+end;
+
+function key: byte;
+begin
+  clear;
+  key := PORT[$60];
 end;
 
 end.

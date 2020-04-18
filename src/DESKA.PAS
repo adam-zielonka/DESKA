@@ -1,5 +1,5 @@
 program deska;
-uses crt, menu, results, game, keys;
+uses menu, game;
 
 procedure init;
 begin
