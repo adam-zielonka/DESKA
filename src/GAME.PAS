@@ -210,13 +210,12 @@ procedure newBest(result: LongInt);
 var newName: string;
 begin
   textColor(15);
-  gotoXY(23, 11); write(' Jesteś najlepszy podaj swoje imię: ');
-  gotoXY(30, 12); write('(Enter aby zatwierdzić)');
-  gotoXY(24, 14); write('╔════════════════════════════════╗');   
-  gotoXY(24, 15); write('║'); 
-  gotoXY(57, 15); write('║');
+  gotoXY(23, 11); write(' Jesteś najlepszy, podaj swoje imię: ');
+  gotoXY(23, 12); write('       (Enter aby zatwierdzić)       ');
+  gotoXY(24, 14); write('╔════════════════════════════════╗');
+  gotoXY(24, 15); write('║                                ║');
   gotoXY(24, 16); write('╚════════════════════════════════╝');
-  gotoXY(25, 15); read(newName);
+  gotoXY(25, 15); readLn(newName);
   writeBestResult(newName, result);
 end;
 
@@ -225,9 +224,10 @@ begin
   readBestResult;
   if result < points then newBest(points);
   textColor(15);
-  gotoXY(23, 11); write('  Kontynuuj? [Spacja] Nie? [Esc]  ');
+  gotoXY(23, 11); write('   Kontynuuj? [Spacja]  Nie? [Esc]   ');
+  gotoXY(23, 12); write('                                     ');
   gotoXY(24, 14); write('╔════════════════════════════════╗');
-  gotoXY(24, 15); write('║                                ║'); 
+  gotoXY(24, 15); write('║                                ║');
   gotoXY(24, 16); write('╚════════════════════════════════╝');
   gotoXY(34, 15); write(result:23);
   gotoXY(25, 15); write(name);
@@ -236,7 +236,7 @@ begin
   begin    
     keysClear;
     if key[KEY_ESC] then begin gameOver := true; break end;
-    if key[KEY_SPACE] then begin gameOver := false; break end;
+    if key[KEY_SPACE] or key[KEY_ENTER] then begin gameOver := false; break end;
   end;
   keysEnd;
 end;
@@ -266,7 +266,7 @@ begin
     if key[KEY_ESC] then break;
     if key[KEY_LEFT] then setBoard(-1);
     if key[KEY_RIGHT] then setBoard(+1);
-    if key[KEY_SPACE] then run := true;
+    if key[KEY_SPACE] or key[KEY_ENTER] then run := true;
   end;
   keysClear;
   keysEnd;
