@@ -31,8 +31,8 @@ begin
   gotoXY(24, 14); write('╔════════════════════════════════╗');
   gotoXY(24, 15); write('║                                ║');
   gotoXY(24, 16); write('╚════════════════════════════════╝');
-  gotoXY(25, 15); write(name);
   gotoXY(34, 15); write(result:23);
+  gotoXY(25, 15); write(name);
   gotoXY(30, 10); write('►');
 end;
 

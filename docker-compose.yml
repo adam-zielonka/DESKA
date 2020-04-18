@@ -5,5 +5,9 @@ services:
     image: registry.gitlab.com/adam-zielonka-pro/dos-pascal-docker
     working_dir: /project
     volumes: [ ./:/project ]
-    command: [ src/DESKA.PAS ]
+    command: [ src/DESKA.PAS, --watch ]
 
+  caddy:
+    image: caddy
+    volumes: [./:/usr/share/caddy/]
+    ports: [ 5001:80 ]
