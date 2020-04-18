@@ -4,7 +4,7 @@ interface
 procedure gameLoop;
 
 implementation
-uses crt, keyB, results;
+uses crt, keys, results;
 var 
   screen: array[1..80, 1..25] of char;
   colors: array[1..80, 1..25] of word;
@@ -231,24 +231,25 @@ begin
   gotoXY(24, 16); write('╚════════════════════════════════╝');
   gotoXY(34, 15); write(result:23);
   gotoXY(25, 15); write(name);
-  keyB_Init;
+  keysInit;
   while true do 
   begin    
-    keyB_clear;
-    if key[Vk_Esc] then begin gameOver := true; break end;
-    if key[Vk_Space] then begin gameOver := false; break end;
+    keysClear;
+    if key[KEY_ESC] then begin gameOver := true; break end;
+    if key[KEY_SPACE] then begin gameOver := false; break end;
   end;
-  keyB_end;
+  keysEnd;
 end;
 
-procedure gameLoop_2;
+procedure mainLoop;
 var time, i: word;
 begin
   clrScr;
   time := 0;
-  keyB_Init;
-  while not key[Vk_Esc] do 
+  keysInit;
+  while not key[KEY_ESC] do 
   begin
+    keysClear;
     time := time + 1;
     if time mod 2 = 0 then calcBall;
     if lives = 0 then break;
@@ -262,12 +263,13 @@ begin
     gotoXY(40, 25); textColor(15); write(points:40); 
     gotoXY(1, 25); textColor(4); write(' ♥ x ', lives); 
     
-    if key[Vk_Esc] then break;
-    if key[Vk_Left] then setBoard(-1);
-    if key[Vk_Right] then setBoard(+1);
-    if key[Vk_Space] then run := true;
+    if key[KEY_ESC] then break;
+    if key[KEY_LEFT] then setBoard(-1);
+    if key[KEY_RIGHT] then setBoard(+1);
+    if key[KEY_SPACE] then run := true;
   end;
-  keyB_end;
+  keysClear;
+  keysEnd;
 end;
 
 procedure gameLoop;
@@ -275,7 +277,7 @@ begin
   setup;
   while true do
   begin
-    gameLoop_2;
+    mainLoop;
     if gameOver then break else nextSetup;
   end;
 end;
