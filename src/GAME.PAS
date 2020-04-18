@@ -14,7 +14,7 @@ var
   boardPosition: word; 
   ballX, ballY: word;
   up, left, run: boolean;
-  boxes: array[1..13, 1..13] of word;
+  boxes: array[1..26, 1..15] of word;
   points: LongInt;
   lives: word;
 
@@ -90,9 +90,6 @@ begin
   attach(x + 0, y, '▓', color, 300);
   attach(x + 1, y, '▓', color, 300);
   attach(x + 2, y, '▓', color, 300);
-  attach(x + 3, y, '▓', color, 300);
-  attach(x + 4, y, '▓', color, 300);
-  attach(x + 5, y, '▓', color, 300);
 end;
 
 procedure renderBoxB(x, y, color: word);
@@ -100,9 +97,6 @@ begin
   attach(x + 0, y, '▒', color, 300);
   attach(x + 1, y, '▒', color, 300);
   attach(x + 2, y, '▒', color, 300);
-  attach(x + 3, y, '▒', color, 300);
-  attach(x + 4, y, '▒', color, 300);
-  attach(x + 5, y, '▒', color, 300);
 end;
 
 procedure renderBoard(position: word);
@@ -132,8 +126,8 @@ end;
 
 procedure touchBox(x, y: word);
 begin
-  points := points + (16 - boxes[(x + 4) div 6 , y - 1]) * 10;
-  boxes[(x + 4) div 6 , y - 1] := 0;
+  points := points + 10;
+  boxes[(x + 1) div 3, y - 1] := 0;
 end;
 
 procedure calcBall;
@@ -180,19 +174,19 @@ end;
 procedure setupBoxes;
 var x, y: word;
 begin
-  for y:= 1 to 13 do
-    for x:= 1 to 13 do
-      if x mod 1 = 0 then boxes[x, y] := 1 + (y div 2) + (x div 2) else boxes[x, y] := 0;
+  for y:= 1 to 15 do
+    for x:= 1 to 26 do
+      if x mod 1 = 0 then boxes[x, y] := 1 + ((y - 1) div 3) + ((x - 1) div 3) else boxes[x, y] := 0;
 end;
 
 procedure renderBoxes;
 var x, y: word;
 begin
-  for y:= 1 to 13 do
-    for x:= 1 to 13 do
+  for y:= 1 to 15 do
+    for x:= 1 to 26 do
       if boxes[x, y] <> 0 then
-        if (x + y) mod 2 = 0 then renderBox(-4 + (x * 6), 1 + y, boxes[x, y])
-        else renderBoxB(-4 + (x * 6), 1 + y, boxes[x, y]);
+        if (x + y) mod 2 = 0 then renderBox(-1 + (x * 3), 1 + y, boxes[x, y])
+        else renderBoxB(-1 + (x * 3), 1 + y, boxes[x, y]);
 end;
 
 procedure setup;
