@@ -8,7 +8,6 @@ end;
 
 begin
   init;
-  {while true do writeLn(key);}
   while true do case menuLoop of
     0: begin break end;
     1: begin gameLoop end;
