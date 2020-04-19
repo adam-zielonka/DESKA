@@ -4,7 +4,7 @@
 In 2011, I was in the second grade of high school and I created two games for subject *Structure and object programming* (Polish: *Programowanie strukturalne i obiektowe*): [Deska](https://gitlab.com/adam-zielonka-pro/deska) and [Saper](https://gitlab.com/adam-zielonka-pro/saper). In these lessons, we learned to program using the Pascal language.
 
 ## About this game
-This game was created in January 2011. At the time I did not know anything about the procedures and the functions, so everything is in one big loop. But in April 2020 I decide to rewrite code. But writing code in `cp852` is not fully possibile in modern tools, so, I created [dos-pascal-docker](https://gitlab.com/adam-zielonka-pro/dos-pascal-docker) to convert code written in `utf-8` to `cp852` and build exe file using Turbo Pascal running in DosBox. 
+This game was created in January 2011. At the time I did not know anything about the procedures and the functions, so everything is in one big loop. But in April 2020 I decided to rewrite code. But writing code in `cp852` is not fully possibile in modern tools, so, I created [dos-pascal-docker](https://gitlab.com/adam-zielonka-pro/dos-pascal-docker) to convert code written in `utf-8` to `cp852` and build exe file using Turbo Pascal running in DosBox. 
 
 ## How to run this game?
 You can go to this webiste: [Play](https://deska.adamzielonka.pro/), the game run via [js-dos](https://js-dos.com/)  
