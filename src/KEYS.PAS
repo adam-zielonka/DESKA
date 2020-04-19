@@ -16,6 +16,7 @@ const
   KEY_CTRL = 29;
   KEY_ALT = 56;
   KEY_SHIFT = 42;
+  KEY_P = 25;
 
 procedure keysInit;
 procedure keysEnd;

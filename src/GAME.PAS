@@ -191,6 +191,7 @@ end;
 
 procedure setup;
 begin
+  clrScr;
   clearR;
   points := 0;
   lives := 3;
@@ -244,7 +245,6 @@ end;
 procedure mainLoop;
 var time, i: word;
 begin
-  clrScr;
   time := 0;
   keysInit;
   while not key[KEY_ESC] do 
@@ -267,6 +267,14 @@ begin
     if key[KEY_LEFT] then setBoard(-1);
     if key[KEY_RIGHT] then setBoard(+1);
     if key[KEY_SPACE] or key[KEY_ENTER] then run := true;
+    if key[KEY_P] then
+    begin
+      gotoXY(37, 25); textColor(15); write('Pauza!'); 
+      while key[KEY_P] do begin end;
+      while not key[KEY_P] do begin end;
+      key[KEY_P] := false;
+      gotoXY(37, 25); textColor(15); write('      '); 
+    end;
   end;
   keysClear;
   keysEnd;
