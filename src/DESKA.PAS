@@ -11,7 +11,7 @@ end;
 begin
   hideCursor;
   while true do case menuLoop of
-    MENU_EXIT: begin break end;
-    MENU_GAME: begin gameLoop end;
+    MENU_EXIT: break;
+    MENU_GAME: gameLoop;
   end;
 end.

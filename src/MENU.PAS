@@ -73,7 +73,6 @@ end;
 function menuLoop: word;
 var 
   position: word;
-  key: char;
 const
   POSITION_PLAY = 10;
   POSITION_HELP = 11;
@@ -81,23 +80,19 @@ const
 begin
   position := POSITION_PLAY;
   printMenu;
-  while true do
-  begin
-    key := readKey;
-    case key of
-      #27: {ESC} begin menuLoop := MENU_EXIT; break; end;
-      #13, #32: {ENTER, SPACE}
-        begin 
-          case position of
-            POSITION_PLAY: menuLoop := MENU_GAME;
-            POSITION_HELP: printHelp;
-            POSITION_EXIT: menuLoop := MENU_EXIT;
-          end;
-          break;
+  while true do case readKey of
+    #27: {ESC} begin menuLoop := MENU_EXIT; break; end;
+    #13, #32: {ENTER, SPACE}
+      begin 
+        case position of
+          POSITION_PLAY: menuLoop := MENU_GAME;
+          POSITION_HELP: printHelp;
+          POSITION_EXIT: menuLoop := MENU_EXIT;
         end;
-      #72: {UP} position := nextPosition(position, true);
-      #80: {DOWN} position := nextPosition(position, false);
-    end;
+        break;
+      end;
+    #72: {UP} position := nextPosition(position, true);
+    #80: {DOWN} position := nextPosition(position, false);
   end;
 end;
 
