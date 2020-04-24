@@ -5,12 +5,14 @@ procedure gameLoop;
 
 implementation
 uses crt, keys, results;
+type
+  CellType = record
+    value, lastValue: char;
+    color, lastColor: word;
+    action: word;
+  end;
 var 
-  screen: array[1..80, 1..25] of char;
-  colors: array[1..80, 1..25] of word;
-  rScreen: array[1..80, 1..25] of char;
-  rColors: array[1..80, 1..25] of word;
-  actions: array[1..80, 1..25] of word;
+  screen: array[1..80, 1..25] of CellType;
   boardPosition: word; 
   ballX, ballY: word;
   up, left, run: boolean;
@@ -18,11 +20,14 @@ var
   points: LongInt;
   lives: word;
 
-procedure attach(x, y: word; value: char; color, action: word);
+procedure attach(x, y: word; _value: char; _color, _action: word);
 begin
-  screen[x, y] := value;
-  colors[x, y] := color;
-  actions[x, y] := action;
+  with screen[x, y] do
+  begin
+    value := _value;
+    color := _color;
+    action := _action;
+  end;
 end;
 
 procedure point(x, y: word; value: char; color: word);
@@ -42,11 +47,19 @@ procedure clearR;
 var x, y: word;
 begin
   for y:= 1 to 25 do
-    for x:= 1 to 80 do
-    begin
-        rScreen[x, y] := ' ';
-        rColors[x, y] := 0;
-    end;
+    for x:= 1 to 80 do 
+      with screen[x, y] do
+      begin
+        lastValue := ' ';
+        lastColor := 0;
+      end;
+end;
+
+function isRenderNeed(x, y: word): boolean;
+begin
+  with screen[x, y] do if (value <> lastValue) or (color <> lastColor) 
+  then isRenderNeed := true
+  else isRenderNeed := false
 end;
 
 procedure render;
@@ -56,13 +69,13 @@ begin
     for x:= 1 to 80 do
     begin
       if ((y=25) and (x=80)) then continue;
-      if ((rScreen[x, y] <> screen[x, y]) or (rColors[x, y] <> colors[x, y])) then
+      if isRenderNeed(x, y) then with screen[x, y] do
       begin
         gotoXY(x, y);
-        textColor(colors[x, y]);
-        write(screen[x, y]);
-        rScreen[x, y] := screen[x, y];
-        rColors[x, y] := colors[x, y];
+        textColor(color);
+        write(value);
+        lastValue := value;
+        lastColor := color;
       end;
     end;
 end;
@@ -104,8 +117,8 @@ begin
   size := 10;
   for i := 0 to size do
     attach(position + i, 23, '▀', 6, 102);
-  actions[position + size + 1, 23] := 102;
-  actions[position - 1, 23] := 102;
+  screen[position + size + 1, 23].action := 102;
+  screen[position - 1, 23].action := 102;
 end;
 
 procedure setBoard(position: integer);
@@ -137,19 +150,19 @@ begin
   if up then y := ballY - 1 else y := ballY + 1;
   if left then x := ballX - 1 else x := ballX + 1;
 
-  if (actions[x - 1][y] <> 0) or (actions[x + 1][y] <> 0) then left := not left;
-  if (actions[x][y - 1] <> 0) or (actions[x][y + 1] <> 0) then up := not up; 
+  if (screen[x - 1][y].action <> 0) or (screen[x + 1][y].action <> 0) then left := not left;
+  if (screen[x][y - 1].action <> 0) or (screen[x][y + 1].action <> 0) then up := not up; 
 
-  if (actions[x - 1][y] = 300) then touchBox(x - 1, y);
-  if (actions[x + 1][y] = 300) then touchBox(x + 1, y);
-  if (actions[x][y - 1] = 300) then touchBox(x, y - 1);
-  if (actions[x][y + 1] = 300) then touchBox(x, y + 1);
-  if (actions[x][y + 1] = 103) then 
+  if (screen[x - 1][y].action = 300) then touchBox(x - 1, y);
+  if (screen[x + 1][y].action = 300) then touchBox(x + 1, y);
+  if (screen[x][y - 1].action = 300) then touchBox(x, y - 1);
+  if (screen[x][y + 1].action = 300) then touchBox(x, y + 1);
+  if (screen[x][y + 1].action = 103) then 
     begin 
       run := false;
       lives := lives - 1;
     end;
-  if (actions[x][y + 1] = 102) then points := points + 1;
+  if (screen[x][y + 1].action = 102) then points := points + 1;
 
   ballX := x;
   ballY := y;
