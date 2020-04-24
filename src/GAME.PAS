@@ -61,13 +61,6 @@ begin
       end;
 end;
 
-function isRenderNeed(x, y: word): boolean;
-begin
-  with screen[x, y] do if (value <> lastValue) or (color <> lastColor) 
-  then isRenderNeed := true
-  else isRenderNeed := false
-end;
-
 procedure render;
 var x, y: word;
 begin
@@ -75,7 +68,7 @@ begin
     for x:= 1 to 80 do
     begin
       if ((y=25) and (x=80)) then continue;
-      if isRenderNeed(x, y) then with screen[x, y] do
+      with screen[x, y] do if (value <> lastValue) or (color <> lastColor) then
       begin
         gotoXY(x, y);
         textColor(color);
