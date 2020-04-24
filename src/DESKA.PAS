@@ -9,7 +9,7 @@ end;
 begin
   init;
   while true do case menuLoop of
-    0: begin break end;
-    1: begin gameLoop end;
+    MENU_EXIT: begin break end;
+    MENU_GAME: begin gameLoop end;
   end;
 end.

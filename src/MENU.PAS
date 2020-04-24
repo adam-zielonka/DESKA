@@ -1,5 +1,8 @@
 unit menu;
 interface
+const
+  MENU_EXIT = 0;
+  MENU_GAME = 1;
 
 function menuLoop: word;
 
@@ -51,46 +54,49 @@ begin
   readKey;
 end;
 
-function nextItem(item: word; up: boolean): word;
-var tempItem: word;
+function nextPosition(position: word; direction: boolean): word;
+var newPosition: word;
 const 
   MAX = 12;
   MIN = 10;
 begin
-  if up then tempItem := item - 1 else tempItem := item + 1;
-  if tempItem = MIN - 1 then tempItem := MAX;
-  if tempItem = MAX + 1 then tempItem := MIN;
+  if direction then newPosition := position - 1 else newPosition := position + 1;
+  if newPosition = MIN - 1 then newPosition := MAX;
+  if newPosition = MAX + 1 then newPosition := MIN;
 
-  gotoXY(30, item); write(' ');
-  gotoXY(30, tempItem); write('►');
+  gotoXY(30, position); write(' ');
+  gotoXY(30, newPosition); write('►');
 
-  nextItem := tempItem;
+  nextPosition := newPosition;
 end;
 
 function menuLoop: word;
 var 
-  item: word;
+  position: word;
   key: char;
+const
+  POSITION_PLAY = 10;
+  POSITION_HELP = 11;
+  POSITION_EXIT = 12;
 begin
-  item := 10;
+  position := POSITION_PLAY;
   printMenu;
   while true do
   begin
     key := readKey;
     case key of
-      #27: {ESC} begin menuLoop := 0; break; end;
+      #27: {ESC} begin menuLoop := MENU_EXIT; break; end;
       #13, #32: {ENTER, SPACE}
         begin 
-          case item of
-            10: {PLAY} menuLoop := 1;
-            11: {HELP} printHelp;
-            12: {EXIT} menuLoop := 0;
+          case position of
+            POSITION_PLAY: menuLoop := MENU_GAME;
+            POSITION_HELP: printHelp;
+            POSITION_EXIT: menuLoop := MENU_EXIT;
           end;
           break;
         end;
-      #72: {UP} item := nextItem(item, true);
-      #80: {DOWN} item := nextItem(item, false);
-      else key:='?';
+      #72: {UP} position := nextPosition(position, true);
+      #80: {DOWN} position := nextPosition(position, false);
     end;
   end;
 end;
