@@ -49,7 +49,6 @@ begin
     end;
 end;
 
-
 procedure render;
 var x, y: word;
 begin
@@ -207,6 +206,16 @@ begin
   lives := 3;
 end;
 
+procedure writeLives;
+begin
+  gotoXY(1, 25); textColor(4); write(' ♥ x ', lives); 
+end;
+
+procedure writePoints;
+begin
+  gotoXY(40, 25); textColor(15); write(points:40); 
+end;
+
 procedure newBest(result: LongInt);
 var newName: string;
 begin
@@ -222,6 +231,7 @@ end;
 
 function gameOver: boolean;
 begin
+  writeLives;
   readBestResult;
   if result < points then newBest(points);
   textColor(15);
@@ -260,8 +270,8 @@ begin
     renderBoard(boardPosition);
     renderBall;
     render;
-    gotoXY(40, 25); textColor(15); write(points:40); 
-    gotoXY(1, 25); textColor(4); write(' ♥ x ', lives); 
+    writeLives;
+    writePoints;
     
     if key[KEY_ESC] then break;
     if key[KEY_LEFT] then setBoard(-1);
@@ -270,9 +280,7 @@ begin
     if key[KEY_P] then
     begin
       gotoXY(37, 25); textColor(15); write('Pauza!'); 
-      while key[KEY_P] do begin end;
-      while not key[KEY_P] do begin end;
-      key[KEY_P] := false;
+      waitFor(KEY_P);
       gotoXY(37, 25); textColor(15); write('      '); 
     end;
   end;

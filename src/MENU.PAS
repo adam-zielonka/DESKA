@@ -48,14 +48,18 @@ begin
   gotoXY(23, 15); write('║ P      - pauza                 ║');
   gotoXY(23, 16); write('╚════════════════════════════════╝');
   gotoXY(23, 17); write('     Cokolwiek aby powrócić');
+  readKey;
 end;
 
 function nextItem(item: word; up: boolean): word;
 var tempItem: word;
+const 
+  MAX = 12;
+  MIN = 10;
 begin
   if up then tempItem := item - 1 else tempItem := item + 1;
-  if tempItem = 9 then tempItem := 12;
-  if tempItem = 13 then tempItem := 10;
+  if tempItem = MIN - 1 then tempItem := MAX;
+  if tempItem = MAX + 1 then tempItem := MIN;
 
   gotoXY(30, item); write(' ');
   gotoXY(30, tempItem); write('►');
@@ -79,7 +83,7 @@ begin
         begin 
           case item of
             10: {PLAY} menuLoop := 1;
-            11: {HELP} begin printHelp; readKey; end;
+            11: {HELP} printHelp;
             12: {EXIT} menuLoop := 0;
           end;
           break;

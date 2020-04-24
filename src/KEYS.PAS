@@ -21,6 +21,7 @@ const
 procedure keysInit;
 procedure keysEnd;
 procedure keysClear;
+procedure waitFor(keyCode: byte);
 
 implementation
 uses dos;
@@ -87,6 +88,13 @@ procedure keysClear; assembler;
 asm
   mov ax, 0c00h
   int 21h
+end;
+
+procedure waitFor(keyCode: byte);
+begin
+  while key[keyCode] do begin end;
+  while not key[keyCode] do begin end;
+  key[keyCode] := false;
 end;
 
 begin
