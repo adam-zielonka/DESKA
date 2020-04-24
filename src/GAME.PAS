@@ -218,12 +218,12 @@ begin
   lives := 3;
 end;
 
-procedure writeLives;
+procedure renderLives;
 begin
   gotoXY(1, 25); textColor(4); write(' ♥ x ', lives); 
 end;
 
-procedure writePoints;
+procedure renderPoints;
 begin
   gotoXY(40, 25); textColor(15); write(points:40); 
 end;
@@ -243,7 +243,7 @@ end;
 
 function gameOver: boolean;
 begin
-  writeLives;
+  renderLives;
   readBestResult;
   if result < points then newBest(points);
   textColor(15);
@@ -282,8 +282,8 @@ begin
     renderBoard(board.position);
     renderBall;
     render;
-    writeLives;
-    writePoints;
+    renderLives;
+    renderPoints;
     
     if key[KEY_ESC] then break;
     if key[KEY_LEFT] then setBoard(-1);
