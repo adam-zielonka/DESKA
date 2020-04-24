@@ -11,11 +11,17 @@ type
     color, lastColor: word;
     action: word;
   end;
+  BoardType = record
+    position: word;
+  end;
+  BallType = record
+    x, y: word;
+    up, left, run: boolean;
+  end;
 var 
   screen: array[1..80, 1..25] of CellType;
-  boardPosition: word; 
-  ballX, ballY: word;
-  up, left, run: boolean;
+  board: BoardType;
+  ball: BallType;
   boxes: array[1..26, 1..15] of word;
   points: LongInt;
   lives: word;
@@ -123,16 +129,16 @@ end;
 
 procedure setBoard(position: integer);
 var size, newPosition: word;
-begin
+begin 
   size := 10;
-  boardPosition := boardPosition + position;
-  if boardPosition < 2 then boardPosition := 2;
-  if boardPosition + size > 79 then boardPosition := 79 - size;
+  board.position := board.position + position;
+  if board.position < 2 then board.position := 2;
+  if board.position + size > 79 then board.position := 79 - size;
 
-  if not run then
+  if not ball.run then
   begin
-    ballX := boardPosition + (size div 2);
-    ballY := 22;
+    ball.x := board.position + (size div 2);
+    ball.y := 22;
   end;
 end;
 
@@ -145,13 +151,13 @@ end;
 procedure calcBall;
 var x, y: word;
 begin
-  if not run then exit;
+  if not ball.run then exit;
 
-  if up then y := ballY - 1 else y := ballY + 1;
-  if left then x := ballX - 1 else x := ballX + 1;
+  if ball.up then y := ball.y - 1 else y := ball.y + 1;
+  if ball.left then x := ball.x - 1 else x := ball.x + 1;
 
-  if (screen[x - 1][y].action <> 0) or (screen[x + 1][y].action <> 0) then left := not left;
-  if (screen[x][y - 1].action <> 0) or (screen[x][y + 1].action <> 0) then up := not up; 
+  if (screen[x - 1][y].action <> 0) or (screen[x + 1][y].action <> 0) then ball.left := not ball.left;
+  if (screen[x][y - 1].action <> 0) or (screen[x][y + 1].action <> 0) then ball.up := not ball.up; 
 
   if (screen[x - 1][y].action = 300) then touchBox(x - 1, y);
   if (screen[x + 1][y].action = 300) then touchBox(x + 1, y);
@@ -159,28 +165,28 @@ begin
   if (screen[x][y + 1].action = 300) then touchBox(x, y + 1);
   if (screen[x][y + 1].action = 103) then 
     begin 
-      run := false;
+      ball.run := false;
       lives := lives - 1;
     end;
   if (screen[x][y + 1].action = 102) then points := points + 1;
 
-  ballX := x;
-  ballY := y;
-  if not run then setBoard(0);
+  ball.x := x;
+  ball.y := y;
+  if not ball.run then setBoard(0);
 end;
 
 procedure renderBall;
 begin
-  point(ballX, ballY, '☺', 14);
+  point(ball.x, ball.y, '☺', 14);
 end;
 
 procedure setupBall;
 begin
-  ballX := 40;
-  ballY := 22;
-  up := true;
-  left := true;
-  run := false;
+  ball.x := 40;
+  ball.y := 22;
+  ball.up := true;
+  ball.left := true;
+  ball.run := false;
 end;
 
 procedure setupBoxes;
@@ -207,7 +213,7 @@ begin
   clearR;
   points := 0;
   lives := 3;
-  boardPosition := 35;
+  board.position := 35;
   setupBall;
   setupBoxes;
 end;
@@ -280,7 +286,7 @@ begin
     clear;
     renderGameArea;
     renderBoxes;
-    renderBoard(boardPosition);
+    renderBoard(board.position);
     renderBall;
     render;
     writeLives;
@@ -289,7 +295,7 @@ begin
     if key[KEY_ESC] then break;
     if key[KEY_LEFT] then setBoard(-1);
     if key[KEY_RIGHT] then setBoard(+1);
-    if key[KEY_SPACE] or key[KEY_ENTER] then run := true;
+    if key[KEY_SPACE] or key[KEY_ENTER] then ball.run := true;
     if key[KEY_P] then
     begin
       gotoXY(37, 25); textColor(15); write('Pauza!'); 
