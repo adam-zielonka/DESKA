@@ -4,7 +4,7 @@ interface
 procedure gameLoop;
 
 implementation
-uses crt, keys, results;
+uses crt, keys, results, time;
 type
   CellType = record
     value, lastValue: char;
@@ -209,6 +209,7 @@ begin
   board.position := 35;
   setupBall;
   setupBoxes;
+  timeinit;
 end;
 
 procedure nextSetup;
@@ -265,15 +266,21 @@ begin
 end;
 
 procedure mainLoop;
-var time, i: word;
+var 
+  i: word;
+  time: longint;
+  timemax: longint;
 begin
   time := 0;
+  timemax := 5;
   keysInit;
   while not key[KEY_ESC] do 
   begin
     keysClear;
+    timemax := timediffer;
+    if timemax = 0 then timemax := 5;
     time := time + 1;
-    if time mod 2 = 0 then calcBall;
+    if time mod timemax = 0 then calcBall;
     if lives = 0 then break;
 
     clear;
