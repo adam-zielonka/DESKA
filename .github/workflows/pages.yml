@@ -39,7 +39,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Build
-        uses: adam-zielonka/dos-pascal-docker@e599d394c5fbac94e270949e009b72a290600cb9
+        uses: adam-zielonka/dos-pascal-docker@fd4338135dd2035506192c0e83c7030dd536643c
         with:
           path: src/DESKA.PAS
       - name: Upload artifact
